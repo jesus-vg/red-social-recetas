@@ -6,6 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
+
+	/**
+	 * To create a migration, run the following command from your project root:
+	 * php artisan make:migration create_users_table --create=users
+	 *
+	 * a way to create a migration, a model and resource controller use the following command:
+	 * php artisan make:model User -mcr
+	 * where -mcr is the option to create a migration, a model and resource controller
+	 */
+
 	/**
 	 * Run the migrations.
 	 * use this command to create the migration:
@@ -24,6 +34,7 @@ class CreateUsersTable extends Migration
 			$table->string('name');
 			$table->string('email')->unique();
 			$table->timestamp('email_verified_at')->nullable();
+			$table->string('url')->nullable();
 			$table->string('password');
 			$table->rememberToken();
 			$table->timestamps();

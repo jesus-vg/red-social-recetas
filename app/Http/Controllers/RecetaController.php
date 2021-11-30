@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class RecetaController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('auth'); // only authenticated users can access this controller
+		// https://www.udemy.com/course/curso-laravel-crea-aplicaciones-y-sitios-web-con-php-y-mvc/learn/lecture/20324719
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *

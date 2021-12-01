@@ -42,4 +42,15 @@ class User extends Authenticatable
 	protected $casts = [
 		'email_verified_at' => 'datetime',
 	];
+
+	/**
+	 * The user has many recipes.
+	 * the recipes are the recipes that the user has created.
+	 * So, the relationship is one to many.
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function recipes()
+	{
+		return $this->hasMany(Receta::class);
+	}
 }

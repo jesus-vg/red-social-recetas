@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryRecipe;
 use App\Models\Receta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
@@ -27,13 +29,9 @@ class RecetaController extends Controller
 		 * https://laravel.com/docs/8.x/routing#view-routes
 		 * https://laravel.com/docs/8.x/views#introduction
 		 */
-		$recetas = [
-			'Receta 1',
-			'Receta 2',
-			'Receta 3',
-		];
-		// dd($recetas);
-		return view('recetas.index', ['recetas' => $recetas]);
+		$recipes = Auth::user()->recipes;
+		// dd($recipes);
+		return view('recetas.index', ['recetas' => $recipes]);
 	}
 
 	/**
@@ -44,7 +42,11 @@ class RecetaController extends Controller
 	public function create()
 	{
 		// DB::table('categorias_receta')->get()->pluck('nombre', 'id')->dd();
-		$categorias = DB::table('categorias_receta')->get()->pluck('nombre', 'id');
+		// $categorias = DB::table('categorias_receta')->get()->pluck('nombre', 'id');
+		$categorias = CategoryRecipe::all([
+			'id',
+			'nombre',
+		]);
 		return view('recetas.create', ['categorias' => $categorias]);
 	}
 

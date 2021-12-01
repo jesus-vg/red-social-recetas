@@ -23,14 +23,15 @@
 			<tbody>
 				@foreach ($recetas as $receta)
 					<tr>
-						<td scope="row">{{ $receta }}</td>
-						<td>Lorem, ipsum.</td>
+						<td scope="row">{{ $receta->titulo }}</td>
+						<td>{{ $receta->categories->nombre }}</td>
 						<td><button
 								type="button"
 								class="btn btn-danger"
 							>Delete</button></td>
 					</tr>
 				@endforeach
+
 			</tbody>
 		</table>
 	</div>

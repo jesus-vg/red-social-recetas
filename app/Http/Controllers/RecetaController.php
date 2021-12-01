@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Receta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RecetaController extends Controller
 {
@@ -41,7 +42,9 @@ class RecetaController extends Controller
 	 */
 	public function create()
 	{
-		return view('recetas.create');
+		// DB::table('categorias_receta')->get()->pluck('nombre', 'id')->dd();
+		$categorias = DB::table('categorias_receta')->get()->pluck('nombre', 'id');
+		return view('recetas.create', ['categorias' => $categorias]);
 	}
 
 	/**
@@ -57,14 +60,29 @@ class RecetaController extends Controller
 	{
 
 		$data = request()->validate([
-			'nombre' => 'required',
-			'cantidad' => 'required',
-			'unidad' => 'required',
-			'preparacion' => 'required',
-			'ingredientes' => 'required',
-			'imagen' => 'required',
+			'titulo' => 'required|min:6',
+			'ingredientes' => 'required|min:10',
+			'preparacion' => 'required|min:50',
+			'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+			'categoria' => 'required|numeric',
 		]);
-		dd($request->all()); // show all the request data
+
+		DB::table('recetas')->insert([
+			'titulo' => $data['titulo'],
+			'ingredientes' => $data['ingredientes'],
+			'preparacion' => $data['preparacion'],
+			'imagen' => $data['imagen']->store('uploads-recetas', 'public'), // store() method returns the path of the file
+			// for amazon s3
+			// 'imagen' => $data['imagen']->store('uploads-recetas', 's3'),
+			// the files are stored in the public folder of the project (storage/app/public)
+			'categoria_id' => $data['categoria'],
+			'user_id' => auth()->user()->id,
+			'created_at' => now(),
+			'updated_at' => now(),
+		]);
+		// dd($request->all()); // show all the request data
+
+		return redirect()->route('recetas.index');
 		//
 	}
 

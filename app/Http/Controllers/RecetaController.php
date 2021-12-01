@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Receta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
 
 class RecetaController extends Controller
 {
@@ -67,14 +68,32 @@ class RecetaController extends Controller
 			'categoria' => 'required|numeric',
 		]);
 
+		// store() method returns the path of the file
+		$route_image = $data['imagen']->store('uploads-recetas', 'public');
+		// for amazon s3
+		// $image = $data['imagen']->store('uploads-recetas', 's3');
+		// the files are stored in the public folder of the project (storage/app/public)
+
+		// To can view the image in the browser, important, we need to add the public path to the image
+		// We may need to add the image to the database and create a symbolic link to the public folder:
+		// use the following command to create the link:
+		// php artisan storage:link
+
+		// To can use the image in the view we need to use the asset() method
+		// https://laravel.com/docs/8.x/views#asset-helper
+		// https://laravel.com/docs/8.x/filesystem#resizing-images
+
+		// resizing the image with intervention image, we use the fit() method
+		// doc http://image.intervention.io/api/fit
+		$image_resize = Image::make(public_path('storage/' . $route_image))->fit(700, 600);
+		// saving the image
+		$image_resize->save();
+
 		DB::table('recetas')->insert([
 			'titulo' => $data['titulo'],
 			'ingredientes' => $data['ingredientes'],
 			'preparacion' => $data['preparacion'],
-			'imagen' => $data['imagen']->store('uploads-recetas', 'public'), // store() method returns the path of the file
-			// for amazon s3
-			// 'imagen' => $data['imagen']->store('uploads-recetas', 's3'),
-			// the files are stored in the public folder of the project (storage/app/public)
+			'imagen' => $route_image, // the path of the image
 			'categoria_id' => $data['categoria'],
 			'user_id' => auth()->user()->id,
 			'created_at' => now(),

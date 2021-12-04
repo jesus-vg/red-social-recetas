@@ -157,6 +157,9 @@ class RecetaController extends Controller
 	 */
 	public function update(Request $request, Receta $receta)
 	{
+		// we authorize the user to edit the recipe
+		$this->authorize('update', $receta);
+
 		// First we have to validate the request data
 		$request = request()->validate([
 			'titulo' => 'required|min:6',

@@ -8,87 +8,88 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RecetaPolicy
 {
-    use HandlesAuthorization;
+	use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function viewAny(User $user)
-    {
-        //
-    }
+	/**
+	 * Determine whether the user can view any models.
+	 *
+	 * @param  \App\Models\User  $user
+	 * @return \Illuminate\Auth\Access\Response|bool
+	 */
+	public function viewAny(User $user)
+	{
+		//
+	}
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Receta  $receta
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function view(User $user, Receta $receta)
-    {
-        //
-    }
+	/**
+	 * Determine whether the user can view the model.
+	 *
+	 * @param  \App\Models\User  $user
+	 * @param  \App\Models\Receta  $receta
+	 * @return \Illuminate\Auth\Access\Response|bool
+	 */
+	public function view(User $user, Receta $receta)
+	{
+		//
+	}
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function create(User $user)
-    {
-        //
-    }
+	/**
+	 * Determine whether the user can create models.
+	 *
+	 * @param  \App\Models\User  $user
+	 * @return \Illuminate\Auth\Access\Response|bool
+	 */
+	public function create(User $user)
+	{
+		//
+	}
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Receta  $receta
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function update(User $user, Receta $receta)
-    {
-        //
-    }
+	/**
+	 * Determine whether the user can update the model.
+	 *
+	 * @param  \App\Models\User  $user
+	 * @param  \App\Models\Receta  $receta
+	 * @return \Illuminate\Auth\Access\Response|bool
+	 */
+	public function update(User $user, Receta $receta)
+	{
+		// we can only update our own recetas
+		return $user->id === $receta->user_id;
+	}
 
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Receta  $receta
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function delete(User $user, Receta $receta)
-    {
-        //
-    }
+	/**
+	 * Determine whether the user can delete the model.
+	 *
+	 * @param  \App\Models\User  $user
+	 * @param  \App\Models\Receta  $receta
+	 * @return \Illuminate\Auth\Access\Response|bool
+	 */
+	public function delete(User $user, Receta $receta)
+	{
+		//
+	}
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Receta  $receta
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Receta $receta)
-    {
-        //
-    }
+	/**
+	 * Determine whether the user can restore the model.
+	 *
+	 * @param  \App\Models\User  $user
+	 * @param  \App\Models\Receta  $receta
+	 * @return \Illuminate\Auth\Access\Response|bool
+	 */
+	public function restore(User $user, Receta $receta)
+	{
+		//
+	}
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Receta  $receta
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Receta $receta)
-    {
-        //
-    }
+	/**
+	 * Determine whether the user can permanently delete the model.
+	 *
+	 * @param  \App\Models\User  $user
+	 * @param  \App\Models\Receta  $receta
+	 * @return \Illuminate\Auth\Access\Response|bool
+	 */
+	public function forceDelete(User $user, Receta $receta)
+	{
+		//
+	}
 }

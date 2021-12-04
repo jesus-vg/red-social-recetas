@@ -25,10 +25,20 @@
 					<tr>
 						<td scope="row">{{ $receta->titulo }}</td>
 						<td>{{ $receta->categories->nombre }}</td>
-						<td><button
+						<td>
+							<button
 								type="button"
-								class="btn btn-danger"
-							>Delete</button></td>
+								class="btn btn-danger btn-sm"
+							>Delete</button>
+							<a
+								href="{{ route('recetas.edit', ['receta' => $receta->id]) }}"
+								class="btn btn-primary btn-sm"
+							>Editar</a>
+							<a
+								href="{{ route('recetas.show', ['receta' => $receta->id]) }}"
+								class="btn btn-info btn-sm"
+							>Ver</a>
+						</td>
 					</tr>
 				@endforeach
 

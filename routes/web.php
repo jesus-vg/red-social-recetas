@@ -33,6 +33,13 @@ Route::get('/recetas/create', [RecetaController::class, 'create'])->name('receta
 
 Route::post('/recetas', [RecetaController::class, 'store'])->name('recetas.store');
 
+// show the recipe with the id passed in the url
+// Route::get('/recetas/{id}', [RecetaController::class, 'show'])->name('recetas.show');
+Route::get('/recetas/{receta}', [RecetaController::class, 'show'])->name('recetas.show');
+
+Route::get('/recetas/{receta}/edit', [RecetaController::class, 'edit'])->name('recetas.edit');
+Route::put('/recetas/{receta}', [RecetaController::class, 'update'])->name('recetas.update');
+
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -33,9 +33,30 @@ class Receta extends Model
 	 *
 	 * use reverse order when model only has foreign key.
 	 * in this case, we have a category_id column in the receta table.
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		return $this->belongsTo( CategoryRecipe::class, 'categoria_id' );
+		return $this->belongsTo(CategoryRecipe::class, 'categoria_id');
+	}
+
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var string[]
+	 */
+	protected $fillable = [
+		'titulo',
+		'ingredientes',
+		'preparacion',
+		'imagen',
+		'categoria_id'
+	];
+
+
+	public function getAuthor()
+	{
+		return $this->belongsTo(User::class, 'user_id');
 	}
 }

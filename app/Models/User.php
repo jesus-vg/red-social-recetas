@@ -49,7 +49,7 @@ class User extends Authenticatable
 	 * So, the relationship is one to many.
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
-	public function recipes()
+	public function recipes(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(Receta::class);
 	}

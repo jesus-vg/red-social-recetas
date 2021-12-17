@@ -25,9 +25,6 @@
 			</div>
 		</div>
 
-
-
-
 		<p>
 			<span class="font-weit-bold text-primary">Fecha: </span>
 			<fecha-receta fecha="{{ $receta->created_at }}"></fecha-receta>

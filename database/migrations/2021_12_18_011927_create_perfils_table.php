@@ -6,26 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePerfilsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('perfils', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('perfiles', function (Blueprint $table) {
+			$table->id();
+			$table->foreignId('user_id')->references('id')->on('users');
+			$table->text('biografia')->nullable();
+			$table->string('imagen')->nullable();
+			$table->timestamps();
+		});
+	}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('perfils');
-    }
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::dropIfExists('perfiles');
+	}
 }

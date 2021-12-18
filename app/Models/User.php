@@ -53,4 +53,34 @@ class User extends Authenticatable
 	{
 		return $this->hasMany(Receta::class);
 	}
+
+	/**
+	 * The user has one profile.
+	 * the profile is the profile of the user.
+	 * So, the relationship is one to one.
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 */
+	public function profile(): \Illuminate\Database\Eloquent\Relations\HasOne
+	{
+		return $this->hasOne(Perfil::class);
+	}
+
+	/**
+	 * Here there are the methods that are used on the life cycle of the model.
+	 * for example, when the user is created, the profile is created too.
+	 * @doc https://laravel.com/docs/8.x/eloquent#events
+	 *
+	 * @return void
+	 */
+	public static function boot()
+	{
+		parent::boot();
+
+		/**
+		 * we create the profile when the user is created.
+		 */
+		static::created(function (User $user) {
+			$user->profile()->create();
+		});
+	}
 }

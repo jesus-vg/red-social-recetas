@@ -7,5 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Perfil extends Model
 {
-    use HasFactory;
+	use HasFactory;
+
+	/**
+	 * The table associated with the model.
+	 *
+	 * @var string
+	 */
+	protected $table = 'perfiles';
+
+	public function user()
+	{
+		return $this->hasOne(Perfil::class, 'id', 'user_id');
+	}
 }

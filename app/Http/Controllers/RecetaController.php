@@ -223,6 +223,17 @@ class RecetaController extends Controller
 	 */
 	public function destroy(Receta $receta)
 	{
-		//
+		// autoryze the user to delete the recipe
+		$this->authorize('delete', $receta);
+
+		// then we delete the record from the database
+		$receta->delete();
+
+		// we delete the image from the storage
+		if ($receta->imagen && Storage::disk('public')->exists($receta->imagen)) {
+			Storage::disk('public')->delete($receta->imagen);
+		}
+
+		return redirect()->route('recetas.index');
 	}
 }

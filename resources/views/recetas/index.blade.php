@@ -26,10 +26,11 @@
 						<td scope="row">{{ $receta->titulo }}</td>
 						<td>{{ $receta->categories->nombre }}</td>
 						<td>
-							<button
-								type="button"
-								class="btn btn-danger btn-sm"
-							>Delete</button>
+							<eliminar-receta
+								receta-id="{{ $receta->id }}"
+								receta-titulo="{{ $receta->titulo }}"
+							></eliminar-receta>
+
 							<a
 								href="{{ route('recetas.edit', ['receta' => $receta->id]) }}"
 								class="btn btn-primary btn-sm"

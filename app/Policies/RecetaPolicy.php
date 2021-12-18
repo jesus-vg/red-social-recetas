@@ -66,7 +66,8 @@ class RecetaPolicy
 	 */
 	public function delete(User $user, Receta $receta)
 	{
-		//
+		// we can only delete our own recetas
+		return $user->id === $receta->user_id;
 	}
 
 	/**

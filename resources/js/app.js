@@ -6,6 +6,11 @@
 
 require("./bootstrap");
 
+import VueSweetalert2 from "vue-sweetalert2";
+// we import the styles, you don't need to `import` the entire library
+import "sweetalert2/dist/sweetalert2.min.css";
+// https://www.udemy.com/course/curso-laravel-crea-aplicaciones-y-sitios-web-con-php-y-mvc/learn/lecture/20325255
+
 window.Vue = require("vue").default;
 
 /**
@@ -23,6 +28,22 @@ window.Vue = require("vue").default;
 // we need to ignore some components
 Vue.config.ignoredElements = ["trix-editor", "trix-toolbar"];
 Vue.component("fecha-receta", require("./components/FechaReceta.vue").default);
+Vue.component(
+	"eliminar-receta",
+	require("./components/EliminarReceta.vue").default
+);
+
+/**
+ * Here we register the Vue plugins
+ *
+ */
+const options = {
+	confirmButtonColor: "#008638",
+	cancelButtonColor: "#e3342f",
+};
+
+Vue.use(VueSweetalert2, options);
+// console.log(Vue.prototype);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

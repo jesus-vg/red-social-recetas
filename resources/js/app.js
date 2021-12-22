@@ -32,6 +32,7 @@ Vue.component(
 	"eliminar-receta",
 	require("./components/EliminarReceta.vue").default
 );
+Vue.component("avatar", require("./components/Avatar.vue").default);
 
 /**
  * Here we register the Vue plugins

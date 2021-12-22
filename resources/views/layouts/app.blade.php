@@ -94,6 +94,12 @@
 								</li>
 							@endif
 						@else
+							<li class="nav-item">
+								<avatar
+									username="{{ Auth::user()->name }}"
+									src="{{ Auth::user()->profile->imagen }}"
+								></avatar>
+							</li>
 							<li class="nav-item dropdown">
 								<a
 									id="navbarDropdown"

@@ -54,7 +54,7 @@ class PerfilController extends Controller
 			'name' => 'required',
 			'url' => 'required',
 			'biografia' => 'required',
-			'imagen' => 'required|file|image|mimes:jpeg,png,jpg,gif,svg',
+			'imagen' => 'file|image|mimes:jpeg,png,jpg,gif,svg',
 		]);
 
 		// if the user has uploaded a new image, we have to delete the old one

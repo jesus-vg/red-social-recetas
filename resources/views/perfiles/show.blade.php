@@ -22,12 +22,16 @@
 			<h2 class="h2 text-center mb-2 text-primary">
 				{{ $perfil->user->name }}
 			</h2>
-			<a
-				href="{{ $perfil->user->url }}"
-				target="_blank"
-			>
-				Visitar sitio web
-			</a>
+
+			<div class="text-center mb-3 mt-2">
+				<a
+					href="{{ $perfil->user->url }}"
+					target="_blank"
+				>
+					Visitar sitio web
+				</a>
+			</div>
+
 			<div class="biografia">
 				@if ($perfil->imagen)
 					<div class="row">
@@ -38,6 +42,7 @@
 								alt="{{ $perfil->user->name }}"
 							>
 						</div>
+
 						<div class="col-12 col-md-8">
 							{!! $perfil->biografia !!}
 						</div>

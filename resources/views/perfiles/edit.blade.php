@@ -12,7 +12,7 @@
 
 @section('botones')
 	<a
-		href="{{ route('recetas.index') }}"
+		href="{{ route('profile.show', ['perfil' => $perfil->id]) }}"
 		class="btn btn-primary"
 	>
 		<i class="fa fa-arrow-left"></i> Volver
@@ -121,6 +121,7 @@
 					{{-- show if old imagen exist --}}
 					@if ($perfil->imagen)
 						<div class="mt-3">
+							<p>Imagen actual:</p>
 							<img
 								src="{{ Storage::url($perfil->imagen) }}"
 								class="img-fluid"

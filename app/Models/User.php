@@ -56,7 +56,6 @@ class User extends Authenticatable
 
 	/**
 	 * The user has one profile.
-	 * the profile is the profile of the user.
 	 * So, the relationship is one to one.
 	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
 	 */

@@ -97,7 +97,7 @@
 							<li class="nav-item">
 								<avatar
 									username="{{ Auth::user()->name }}"
-									src="{{ Auth::user()->profile->imagen }}"
+									src="{{ Storage::url(Auth::user()->profile->imagen) }}"
 								></avatar>
 							</li>
 							<li class="nav-item dropdown">
@@ -118,6 +118,20 @@
 									class="dropdown-menu dropdown-menu-right"
 									aria-labelledby="navbarDropdown"
 								>
+									<a
+										class="dropdown-item"
+										href="{{ route('profile.show', Auth::user()->id) }}"
+									>
+										{{ __('Profile') }}
+									</a>
+
+									<a
+										class="dropdown-item"
+										href="{{ route('recetas.index') }}"
+									>
+										{{ __('Recipes') }}
+									</a>
+
 									<a
 										class="dropdown-item"
 										href="{{ route('logout') }}"

@@ -2077,10 +2077,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     getAvatar: function getAvatar() {
+      // console.log(this.src);
       return this.src;
     },
     getUsername: function getUsername() {
-      console.log(this.username);
+      // console.log(this.username);
       return this.username;
     }
   }

@@ -13,10 +13,12 @@ export default Vue.extend({
 	},
 	computed: {
 		getAvatar() {
+			// console.log(this.src);
+
 			return this.src;
 		},
 		getUsername() {
-			console.log(this.username);
+			// console.log(this.username);
 
 			return this.username;
 		},

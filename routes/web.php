@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PerfilController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecetaController;
 
@@ -41,6 +42,20 @@ Route::get('/recetas/{receta}/edit', [RecetaController::class, 'edit'])->name('r
 Route::put('/recetas/{receta}', [RecetaController::class, 'update'])->name('recetas.update');
 
 Route::delete('/recetas/{receta}', [RecetaController::class, 'destroy'])->name('recetas.destroy');
+
+
+// routes for the profile user
+Route::get('/profile/{perfil}', [PerfilController::class, 'show'])->name('profile.show');
+// uri is a string that represents the uri of the route
+// example: /profile/{perfil}
+// where:
+// {perfil} is the name of the parameter and should be the same as the name of the model this is important
+
+// route to edit the profile
+Route::get('/profile/{perfil}/edit', [PerfilController::class, 'edit'])->name('profile.edit');
+
+// route to update the profile
+Route::put('/profile/{perfil}', [PerfilController::class, 'update'])->name('profile.update');
 
 Auth::routes();
 

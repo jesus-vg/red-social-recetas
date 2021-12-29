@@ -11,6 +11,14 @@ import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 // https://www.udemy.com/course/curso-laravel-crea-aplicaciones-y-sitios-web-con-php-y-mvc/learn/lecture/20325255
 
+// we import the plugin cropper.js
+// import Cropper from "cropperjs";
+// import "cropperjs/dist/cropper.css";
+
+// we asign the plugin to the global object
+// window.Cropper = Cropper;
+// console.log(window.Cropper);
+
 window.Vue = require("vue").default;
 
 /**
@@ -33,6 +41,10 @@ Vue.component(
 	require("./components/EliminarReceta.vue").default
 );
 Vue.component("avatar", require("./components/Avatar.vue").default);
+Vue.component(
+	"recortar-imagen",
+	require("./components/RecortarImagen.vue").default
+);
 
 /**
  * Here we register the Vue plugins

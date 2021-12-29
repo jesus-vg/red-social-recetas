@@ -129,6 +129,11 @@
 							>
 						</div>
 					@endif
+
+					<recortar-imagen
+						imagen="{{ Storage::url($perfil->imagen) }}"
+						:aspect-ratio="1"
+					></recortar-imagen>
 				</div>
 
 				<div class="form-group">
@@ -142,6 +147,9 @@
 			</form>
 		</div>
 	</div>
+
+	{{-- modal to select imagen of the user --}}
+
 @endsection
 
 @section('scripts')

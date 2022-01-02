@@ -27,6 +27,24 @@
 	{{-- {{ $perfil->user }} --}}
 	<div class="row">
 		<div class="col-12">
+			@if (Session::get('success'))
+				<div
+					class="alert alert-primary"
+					role="alert"
+				>
+					{{ Session::get('success') }}
+				</div>
+			@endif
+			@if (Session::get('error'))
+				<div
+					class="alert alert-danger"
+					role="alert"
+				>
+					{{ Session::get('error') }}
+				</div>
+			@endif
+		</div>
+		<div class="col-12">
 			<form
 				action="{{ route('profile.update', ['perfil' => $perfil->user->id]) }}"
 				method="POST"
@@ -102,13 +120,7 @@
 
 				{{-- edit imagen --}}
 				<div class="form-group">
-					<label for="imagen">Imagen</label>
-					<input
-						type="file"
-						name="imagen"
-						id="imagen"
-						class="form-control-file @error('imagen') is-invalid @enderror"
-					>
+
 					@error('imagen')
 						<span
 							class="invalid-feedback"
@@ -118,22 +130,7 @@
 						</span>
 					@enderror
 
-					{{-- show if old imagen exist --}}
-					@if ($perfil->imagen)
-						<div class="mt-3">
-							<p>Imagen actual:</p>
-							<img
-								src="{{ Storage::url($perfil->imagen) }}"
-								class="img-fluid"
-								alt="{{ $perfil->user->name }}"
-							>
-						</div>
-					@endif
-
-					<recortar-imagen
-						imagen="{{ Storage::url($perfil->imagen) }}"
-						:aspect-ratio="1"
-					></recortar-imagen>
+					<recortar-imagen imagen="{{ Storage::url($perfil->imagen) }}"></recortar-imagen>
 				</div>
 
 				<div class="form-group">

@@ -15,9 +15,7 @@
 	{{-- {{ $perfil->user->recipes }} --}}
 	{{-- {{ $perfil->user }} --}}
 	<div class="row">
-		<div class="col">
 
-		</div>
 		<div class="col-12 ">
 			<h2 class="h2 text-center mb-2 text-primary">
 				{{ $perfil->user->name }}

@@ -161,7 +161,7 @@
 					<button
 						type="submit"
 						class="btn btn-primary"
-					>Agregar receta</button>
+					>Editar receta</button>
 				</div>
 			</div>
 		</form>

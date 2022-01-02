@@ -30,7 +30,8 @@ class RecetaPolicy
 	 */
 	public function view(User $user, Receta $receta)
 	{
-		//
+		// verificamos si el usuario logueado es el mismo que quiere ver la receta
+		return $user->id === $receta->user_id;
 	}
 
 	/**

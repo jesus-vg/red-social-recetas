@@ -143,7 +143,9 @@ class RecetaController extends Controller
 	 */
 	public function edit(Receta $receta)
 	{
-		//
+		// usamos un policy para ver si el usuario puede editar la receta
+		$this->authorize('view', $receta);
+
 		$categorias = CategoryRecipe::all(['id', 'nombre',]);
 		return view('recetas.edit', ['receta' => $receta, 'categorias' => $categorias]);
 	}

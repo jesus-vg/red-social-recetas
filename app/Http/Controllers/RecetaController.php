@@ -31,8 +31,12 @@ class RecetaController extends Controller
 		 * https://laravel.com/docs/8.x/routing#view-routes
 		 * https://laravel.com/docs/8.x/views#introduction
 		 */
-		$recipes = Auth::user()->recipes;
+		// $recipes = Auth::user()->recipes;
 		// dd($recipes);
+
+		// mostrar las recetas del usuario logueado con paginacion de 5 en 5
+		$recipes = Auth::user()->recipes()->paginate(5);
+
 		return view('recetas.index', ['recetas' => $recipes]);
 	}
 

@@ -13,7 +13,7 @@
 
 		{{-- we validate if data recipes not exist --}}
 		@if (count($recetas) > 0)
-			<table class="table mt-4 table-striped">
+			<table class="table mt-4 table-striped tabla-recetas">
 				<thead class="bg-primary text-white">
 					<tr>
 						<th>Titulo</th>
@@ -46,6 +46,12 @@
 					@endforeach
 				</tbody>
 			</table>
+
+			{{-- paginacion centrada --}}
+			<div class="d-flex justify-content-center">
+				{{-- mostramos la paginacion --}}
+				{{ $recetas->links('pagination::bootstrap-4') }}
+			</div>
 		@else
 			{{-- we show message if data recipes not exist --}}
 			<div

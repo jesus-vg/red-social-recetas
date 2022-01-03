@@ -63,8 +63,8 @@ class RecetaController extends Controller
 				$color = $this->promedioColorImagen('storage/' . $image);
 				// dd($color);
 
-				// guardamos el color promedio en un array
-				$array_colores[] = $color;
+				// guardamos el color promedio en el array
+				array_push($array_colores, $color);
 			}
 		}
 		// dd($array_colores);

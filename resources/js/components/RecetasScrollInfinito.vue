@@ -35,6 +35,7 @@
 					</div>
 				</div>
 			</div>
+			<loader v-if="cargando" mensaje="Cargando recetas..."></loader>
 		</div>
 	</div>
 </template>
@@ -43,8 +44,12 @@
 import Vue from "vue";
 import axios from "axios";
 import MagicGrid from "magic-grid";
+import Loader from "./Loader";
 
 export default Vue.extend({
+	components: {
+		loader: Loader,
+	},
 	props: {
 		idUsuario: {
 			type: Number,
@@ -60,10 +65,12 @@ export default Vue.extend({
 			ultimaPagina: 1,
 			primeraPagina: 1,
 			myMagicGrid: null,
+			cargando: true,
 		};
 	},
 	methods: {
 		obtenerRecetas() {
+			this.cargando = true;
 			// obtener las recetas del usuario
 			axios
 				.get(
@@ -71,7 +78,6 @@ export default Vue.extend({
 				)
 				.then(({ data }) => {
 					console.log(data);
-
 					this.recetas = data.data;
 					this.colores = data.colores;
 					this.totalRecetas = data.total;
@@ -79,6 +85,10 @@ export default Vue.extend({
 				})
 				.catch((error) => {
 					console.log(error);
+				})
+				.finally(() => {
+					// quitamos el loader de carga haya o no habido errores
+					this.cargando = false;
 				});
 		},
 		cambiarPagina(pagina) {

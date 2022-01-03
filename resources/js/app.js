@@ -54,6 +54,9 @@ Vue.component(
 	require("./components/RecetasScrollInfinito.vue").default
 );
 
+// componente para mostrar un loader
+Vue.component("loader", require("./components/Loader.vue").default);
+
 /**
  * Here we register the Vue plugins
  *

@@ -139,6 +139,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.img,
 .img-receta {
 	max-width: 300px;
 	height: 180px;

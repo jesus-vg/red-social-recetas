@@ -43,9 +43,12 @@ class RecetaController extends Controller
 	// crear metodo para mostrar recetas de un usuario paginadas de 5 en 5
 	public function paginacionRecetas(Request $request)
 	{
-		// dd($request);
+		// dd($request->idUsuario);
+
+
+
 		// obtener las recetas del usuario logueado
-		$recetas = Auth::user()->recipes()->paginate(5);
+		$recetas = Receta::where('user_id', $request->idUsuario)->paginate(5);
 
 		// obtenemos el color promedio de cada imagen de la receta
 		$array_colores = array();

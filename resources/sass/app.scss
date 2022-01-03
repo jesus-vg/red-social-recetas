@@ -12,3 +12,15 @@
 
 // styles perfil
 @import "perfil";
+
+// estilos generales
+.blur-up.lazyloading {
+	-webkit-filter: blur(7px);
+	filter: blur(7px);
+	transition: filter 1s, -webkit-filter 1s;
+}
+
+.blur-up.lazyloaded {
+	-webkit-filter: blur(0);
+	filter: blur(0);
+}

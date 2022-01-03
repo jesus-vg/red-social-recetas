@@ -11,13 +11,15 @@ import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 // https://www.udemy.com/course/curso-laravel-crea-aplicaciones-y-sitios-web-con-php-y-mvc/learn/lecture/20325255
 
-// we import the plugin cropper.js
-// import Cropper from "cropperjs";
-// import "cropperjs/dist/cropper.css";
+import "lazysizes";
+// import a plugin
+import "lazysizes/plugins/parent-fit/ls.parent-fit";
+// https://github.com/aFarkas/lazysizes
 
-// we asign the plugin to the global object
-// window.Cropper = Cropper;
-// console.log(window.Cropper);
+window.lazySizesConfig = window.lazySizesConfig || {};
+
+// configure lazySizes para que cargue las imagenes solo cuando se hace scroll
+window.lazySizesConfig.loadMode = 0;
 
 window.Vue = require("vue").default;
 
@@ -44,6 +46,12 @@ Vue.component("avatar", require("./components/Avatar.vue").default);
 Vue.component(
 	"recortar-imagen",
 	require("./components/RecortarImagen.vue").default
+);
+
+// componente para scroll infinito en recetas
+Vue.component(
+	"recetas-scroll-infinito",
+	require("./components/RecetasScrollInfinito.vue").default
 );
 
 /**

@@ -26,6 +26,8 @@
     },
     "dependencies": {
         "cropperjs": "^1.5.12",
+        "lazysizes": "^5.3.2",
+        "magic-grid": "^3.2.4",
         "vue-avatar": "^2.3.3",
         "vue-sweetalert2": "^5.0.2"
     }

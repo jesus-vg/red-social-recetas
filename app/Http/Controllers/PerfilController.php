@@ -25,9 +25,19 @@ class PerfilController extends Controller
 	 */
 	public function show(Perfil $perfil)
 	{
-		//
+		// dd($perfil);
+
+		// obtener las primeras 5 recetas del usuario
+		$recetas = $perfil->user->recipes()->paginate(5);
+		// dd($recetas);
+
+		// mostrar los datos de la paginacion en formato json
+		// https://laravel.com/docs/8.x/pagination#json-pagination
+		$recetas->withPath('/perfil/' . $perfil->id);
+
+
 		// return view('perfiles.show', compact('perfil'));
-		return view('perfiles.show', ['perfil' => $perfil]);
+		return view('perfiles.show', ['perfil' => $perfil, 'recetas' => $recetas]);
 	}
 
 	/**

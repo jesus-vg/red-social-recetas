@@ -7,7 +7,6 @@ use App\Models\Receta;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -38,6 +37,88 @@ class RecetaController extends Controller
 		$recipes = Auth::user()->recipes()->paginate(5);
 
 		return view('recetas.index', ['recetas' => $recipes]);
+	}
+
+
+	// crear metodo para mostrar recetas de un usuario paginadas de 5 en 5
+	public function paginacionRecetas(Request $request)
+	{
+		// dd($request);
+		// obtener las recetas del usuario logueado
+		$recetas = Auth::user()->recipes()->paginate(5);
+
+		// obtenemos el color promedio de cada imagen de la receta
+		$array_colores = array();
+
+		foreach ($recetas->items() as $receta) {
+			// echo $receta->imagen;
+			$image = $receta->imagen;
+			// dd($image);
+
+			if ($image) {
+				// obtenemos el color promedio de la imagen
+				$color = $this->promedioColorImagen('storage/' . $image);
+				// dd($color);
+
+				// guardamos el color promedio en un array
+				$array_colores[] = $color;
+			}
+		}
+		// dd($array_colores);
+
+		// retornamos la paginacion y los colores promedio de las imagenes en un array (array_merge)
+		return array_merge($recetas->toArray(), ['colores' => $array_colores]);
+	}
+
+	/**
+	 * Función que tiene que recibir la ruta de una imagen de nuestro servidor web
+	 * y devuelve un array con los colores mas utilizados para el rojo, verde y azul
+	 * Si no devuelve una imagen conocida, devuelve array(0,0,0)
+	 */
+	public function promedioColorImagen($rutaImagen)
+	{
+		// obtenemos el tipo mime de la imagen (desde PHP 5.3)
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		$fileMime = finfo_file($finfo, $rutaImagen);
+
+		// abrimos la imagen
+		if ($fileMime == "image/jpeg" || $fileMime == "image/pjpeg") {
+			$imgId = imagecreatefromjpeg($rutaImagen);
+		} else if ($fileMime == "image/gif") {
+			$imgId = imagecreatefromgif($rutaImagen);
+		} else if ($fileMime == "image/png") {
+			$imgId = imagecreatefrompng($rutaImagen);
+		} else {
+			return array(1, 22, 39); // color por defecto rgb(1,22,39)
+		}
+
+		$red = 0;
+		$green = 0;
+		$blue = 0;
+		$total = 0;
+
+		// Recorremos todos los valores horizontales
+		for ($x = 0; $x < imagesx($imgId); $x++) {
+			// Recorremos todos los valores verticales
+			for ($y = 0; $y < imagesy($imgId); $y++) {
+				// Obtenemos los valores red, green, blue de cada pixel de la imagen
+				// (http://php.net/manual/en/function.imagecolorat.php)
+				$rgb = imagecolorat($imgId, $x, $y);
+
+				// devuelve el indice de cada color
+				$red += ($rgb >> 16) & 0xFF;
+				$green += ($rgb >> 8) & 0xFF;
+				$blue += $rgb & 0xFF;
+
+				$total++;
+			}
+		}
+		$redPromedio = round($red / $total);
+		$greenPromedio = round($green / $total);
+		$bluePromedio = round($blue / $total);
+
+		// devolvemos un array con el promedio de los colores en rojo, verde y azul
+		return array($redPromedio, $greenPromedio, $bluePromedio);
 	}
 
 	/**

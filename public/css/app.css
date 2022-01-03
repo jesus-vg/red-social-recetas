@@ -10078,3 +10078,12 @@ body {
   -webkit-clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
           clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
 }
+
+.blur-up.lazyloading {
+  filter: blur(7px);
+  transition: filter 1s;
+}
+
+.blur-up.lazyloaded {
+  filter: blur(0);
+}

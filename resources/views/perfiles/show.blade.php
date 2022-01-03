@@ -32,8 +32,8 @@
 			<div class="row">
 				<div class="col-12 col-md-4">
 					<img
-						src="{{ asset('storage/' . $perfil->imagen) }}"
-						class="img-fluid "
+						data-src="{{ asset('storage/' . $perfil->imagen) }}"
+						class="img-fluid lazyload"
 						alt="{{ $perfil->user->name }}"
 					>
 				</div>

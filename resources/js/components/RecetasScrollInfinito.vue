@@ -2,10 +2,12 @@
 	<div class="recetas-scroll-infinito">
 		<div class="recetas-scroll-infinito__contenedor">
 			<!-- mostrar el total de recetas creadas del usuario -->
-			<div class="recetas-scroll-infinito__total">
+			<div
+				class="recetas-scroll-infinito__total text-primary text-center h4"
+			>
 				<span>
 					<i class="fas fa-utensils"></i>
-					<span>{{ totalRecetas }}</span>
+					<span>{{ totalRecetas }} recetas</span>
 				</span>
 			</div>
 			<div class="recetas-scroll-infinito__contenido">
@@ -36,6 +38,12 @@
 				</div>
 			</div>
 			<loader v-if="cargando" mensaje="Cargando recetas..."></loader>
+			<div
+				class="text-center h4 my-5"
+				v-if="!cargando && paginaActual === ultimaPagina"
+			>
+				... ya no hay más recetas para mostrar
+			</div>
 		</div>
 	</div>
 </template>
@@ -63,7 +71,6 @@ export default Vue.extend({
 			colores: [],
 			paginaActual: 1,
 			ultimaPagina: 1,
-			primeraPagina: 1,
 			myMagicGrid: null,
 			cargando: true,
 		};
@@ -77,9 +84,8 @@ export default Vue.extend({
 					`/recetas/usuario/${this.idUsuario}?pagina=${this.paginaActual}`
 				)
 				.then(({ data }) => {
-					console.log(data);
-					this.recetas = data.data;
-					this.colores = data.colores;
+					this.recetas.push(...data.data); // agregar las recetas al final de la lista
+					this.colores.push(...data.colores); // agregar el color promedio de cada receta al final de la lista
 					this.totalRecetas = data.total;
 					this.ultimaPagina = data.last_page;
 				})
@@ -91,26 +97,10 @@ export default Vue.extend({
 					this.cargando = false;
 				});
 		},
-		cambiarPagina(pagina) {
-			this.paginaActual = pagina;
-			this.obtenerRecetas();
-		},
-		cambiarPaginaAnterior() {
-			if (this.paginaActual > 1) {
-				this.paginaActual--;
-				this.obtenerRecetas();
-			}
-		},
-		cambiarPaginaSiguiente() {
-			if (this.paginaActual < this.ultimaPagina) {
-				this.paginaActual++;
-				this.obtenerRecetas();
-			}
-		},
 		initMagicGrid() {
 			this.myMagicGrid = new MagicGrid({
 				container: ".recetas-scroll-infinito__contenido",
-				items: 5,
+				items: 1,
 				gutter: 20,
 				maxWidth: "100%",
 				animate: true,
@@ -118,41 +108,64 @@ export default Vue.extend({
 			});
 			this.myMagicGrid.listen();
 		},
+		initScrollInifito() {
+			window.addEventListener("scroll", () => {
+				if (
+					window.innerHeight + window.scrollY >=
+					document.body.offsetHeight - 500
+				) {
+					if (this.paginaActual < this.ultimaPagina) {
+						this.paginaActual++;
+						this.obtenerRecetas();
+					}
+				}
+			});
+		},
 	},
 	mounted() {
-		console.log("mounted");
+		// console.log("mounted");
 		this.initMagicGrid();
 		this.obtenerRecetas();
 
+		// disparar un evento por cada imagen cargada para que magic grid sepa que hay que hacer
 		document.addEventListener("lazyloaded", (e) => {
-			// console.log("lazyloaded", e);
-			this.myMagicGrid.positionItems();
+			this.myMagicGrid.positionItems(); // reposicionar los items
 		});
+
+		// iniciar el scroll infinito
+		this.initScrollInifito();
 	},
 });
 
-// {
-// current_page: 1
-// data: (5) [{…}, {…}, {…}, {…}, {…}]
-// first_page_url: "http://localhost:8000/recetas/usuario/3?page=1"
-// from: 1
-// last_page: 2
-// last_page_url: "http://localhost:8000/recetas/usuario/3?page=2"
-// links: (4) [{…}, {…}, {…}, {…}]
-// next_page_url: "http://localhost:8000/recetas/usuario/3?page=2"
-// path: "http://localhost:8000/recetas/usuario/3"
-// per_page: 5
-// prev_page_url: null
-// to: 5
-// total: 6
+// reques.data = {
+//	 current_page: 1
+//	 data: (5) [{…}, {…}, {…}, {…}, {…}]
+//	 first_page_url: "http://localhost:8000/recetas/usuario/3?page=1"
+//	 from: 1
+//	 last_page: 2
+//	 last_page_url: "http://localhost:8000/recetas/usuario/3?page=2"
+//	 links: (4) [{…}, {…}, {…}, {…}]
+//	 next_page_url: "http://localhost:8000/recetas/usuario/3?page=2"
+//	 path: "http://localhost:8000/recetas/usuario/3"
+//	 per_page: 5
+//	 prev_page_url: null
+//	 to: 5
+//	 total: 6
 // 	}
 </script>
 
 <style scoped>
+.recetas-scroll-infinito,
+.recetas-scroll-infinito__total {
+	margin: 1rem 0;
+}
 .img,
 .img-receta {
 	max-width: 300px;
 	height: 180px;
+	border-radius: 0.3rem;
+	user-select: none;
+	pointer-events: none;
 }
 .card {
 	width: 300px;

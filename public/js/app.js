@@ -2264,6 +2264,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var magic_grid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! magic-grid */ "./node_modules/magic-grid/dist/magic-grid.min.js");
 /* harmony import */ var magic_grid__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(magic_grid__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Loader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Loader */ "./resources/js/components/Loader.vue");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2327,7 +2347,6 @@ __webpack_require__.r(__webpack_exports__);
       colores: [],
       paginaActual: 1,
       ultimaPagina: 1,
-      primeraPagina: 1,
       myMagicGrid: null,
       cargando: true
     };
@@ -2339,10 +2358,16 @@ __webpack_require__.r(__webpack_exports__);
       this.cargando = true; // obtener las recetas del usuario
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/recetas/usuario/".concat(this.idUsuario, "?pagina=").concat(this.paginaActual)).then(function (_ref) {
+        var _this$recetas, _this$colores;
+
         var data = _ref.data;
-        console.log(data);
-        _this.recetas = data.data;
-        _this.colores = data.colores;
+
+        (_this$recetas = _this.recetas).push.apply(_this$recetas, _toConsumableArray(data.data)); // agregar las recetas al final de la lista
+
+
+        (_this$colores = _this.colores).push.apply(_this$colores, _toConsumableArray(data.colores)); // agregar el color promedio de cada receta al final de la lista
+
+
         _this.totalRecetas = data.total;
         _this.ultimaPagina = data.last_page;
       })["catch"](function (error) {
@@ -2352,59 +2377,59 @@ __webpack_require__.r(__webpack_exports__);
         _this.cargando = false;
       });
     },
-    cambiarPagina: function cambiarPagina(pagina) {
-      this.paginaActual = pagina;
-      this.obtenerRecetas();
-    },
-    cambiarPaginaAnterior: function cambiarPaginaAnterior() {
-      if (this.paginaActual > 1) {
-        this.paginaActual--;
-        this.obtenerRecetas();
-      }
-    },
-    cambiarPaginaSiguiente: function cambiarPaginaSiguiente() {
-      if (this.paginaActual < this.ultimaPagina) {
-        this.paginaActual++;
-        this.obtenerRecetas();
-      }
-    },
     initMagicGrid: function initMagicGrid() {
       this.myMagicGrid = new (magic_grid__WEBPACK_IMPORTED_MODULE_1___default())({
         container: ".recetas-scroll-infinito__contenido",
-        items: 5,
+        items: 1,
         gutter: 20,
         maxWidth: "100%",
         animate: true,
         center: true
       });
       this.myMagicGrid.listen();
+    },
+    initScrollInifito: function initScrollInifito() {
+      var _this2 = this;
+
+      window.addEventListener("scroll", function () {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+          if (_this2.paginaActual < _this2.ultimaPagina) {
+            _this2.paginaActual++;
+
+            _this2.obtenerRecetas();
+          }
+        }
+      });
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
-    console.log("mounted");
+    // console.log("mounted");
     this.initMagicGrid();
-    this.obtenerRecetas();
+    this.obtenerRecetas(); // disparar un evento por cada imagen cargada para que magic grid sepa que hay que hacer
+
     document.addEventListener("lazyloaded", function (e) {
-      // console.log("lazyloaded", e);
-      _this2.myMagicGrid.positionItems();
-    });
+      _this3.myMagicGrid.positionItems(); // reposicionar los items
+
+    }); // iniciar el scroll infinito
+
+    this.initScrollInifito();
   }
-})); // {
-// current_page: 1
-// data: (5) [{…}, {…}, {…}, {…}, {…}]
-// first_page_url: "http://localhost:8000/recetas/usuario/3?page=1"
-// from: 1
-// last_page: 2
-// last_page_url: "http://localhost:8000/recetas/usuario/3?page=2"
-// links: (4) [{…}, {…}, {…}, {…}]
-// next_page_url: "http://localhost:8000/recetas/usuario/3?page=2"
-// path: "http://localhost:8000/recetas/usuario/3"
-// per_page: 5
-// prev_page_url: null
-// to: 5
-// total: 6
+})); // reques.data = {
+//	 current_page: 1
+//	 data: (5) [{…}, {…}, {…}, {…}, {…}]
+//	 first_page_url: "http://localhost:8000/recetas/usuario/3?page=1"
+//	 from: 1
+//	 last_page: 2
+//	 last_page_url: "http://localhost:8000/recetas/usuario/3?page=2"
+//	 links: (4) [{…}, {…}, {…}, {…}]
+//	 next_page_url: "http://localhost:8000/recetas/usuario/3?page=2"
+//	 path: "http://localhost:8000/recetas/usuario/3"
+//	 per_page: 5
+//	 prev_page_url: null
+//	 to: 5
+//	 total: 6
 // 	}
 
 /***/ }),
@@ -10805,7 +10830,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.img[data-v-3b7b04c1],\n.img-receta[data-v-3b7b04c1] {\n\tmax-width: 300px;\n\theight: 180px;\n}\n.card[data-v-3b7b04c1] {\n\twidth: 300px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.recetas-scroll-infinito[data-v-3b7b04c1],\n.recetas-scroll-infinito__total[data-v-3b7b04c1] {\n\tmargin: 1rem 0;\n}\n.img[data-v-3b7b04c1],\n.img-receta[data-v-3b7b04c1] {\n\tmax-width: 300px;\n\theight: 180px;\n\tborder-radius: 0.3rem;\n\t-webkit-user-select: none;\n\t   -moz-user-select: none;\n\t    -ms-user-select: none;\n\t        user-select: none;\n\tpointer-events: none;\n}\n.card[data-v-3b7b04c1] {\n\twidth: 300px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -43940,13 +43965,20 @@ var render = function () {
       "div",
       { staticClass: "recetas-scroll-infinito__contenedor" },
       [
-        _c("div", { staticClass: "recetas-scroll-infinito__total" }, [
-          _c("span", [
-            _c("i", { staticClass: "fas fa-utensils" }),
-            _vm._v(" "),
-            _c("span", [_vm._v(_vm._s(_vm.totalRecetas))]),
-          ]),
-        ]),
+        _c(
+          "div",
+          {
+            staticClass:
+              "recetas-scroll-infinito__total text-primary text-center h4",
+          },
+          [
+            _c("span", [
+              _c("i", { staticClass: "fas fa-utensils" }),
+              _vm._v(" "),
+              _c("span", [_vm._v(_vm._s(_vm.totalRecetas) + " recetas")]),
+            ]),
+          ]
+        ),
         _vm._v(" "),
         _c(
           "div",
@@ -43993,6 +44025,12 @@ var render = function () {
         _vm._v(" "),
         _vm.cargando
           ? _c("loader", { attrs: { mensaje: "Cargando recetas..." } })
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.cargando && _vm.paginaActual === _vm.ultimaPagina
+          ? _c("div", { staticClass: "text-center h4 my-5" }, [
+              _vm._v("\n\t\t\t... ya no hay más recetas para mostrar\n\t\t"),
+            ])
           : _vm._e(),
       ],
       1

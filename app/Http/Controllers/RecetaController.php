@@ -48,7 +48,7 @@ class RecetaController extends Controller
 
 
 		// obtener las recetas del usuario logueado
-		$recetas = Receta::where('user_id', $request->idUsuario)->paginate(5);
+		$recetas = Receta::where('user_id', $request->idUsuario)->paginate(10, ['*'], 'pagina');
 
 		// obtenemos el color promedio de cada imagen de la receta
 		$array_colores = array();

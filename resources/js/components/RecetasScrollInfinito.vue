@@ -19,7 +19,7 @@
 					>
 						<img
 							class="card-img-top img-receta lazyload blur-up"
-							alt="Card image cap"
+							:alt="receta.titulo"
 							:data-src="'/storage/' + receta.imagen"
 						/>
 					</div>
@@ -28,6 +28,9 @@
 						<h5 class="card-title">
 							{{ receta.titulo }}
 						</h5>
+						<p class="card-text">
+							{{ receta.preparacion }}
+						</p>
 						<a
 							:href="`/recetas/${receta.id}`"
 							class="btn btn-primary"
@@ -84,6 +87,18 @@ export default Vue.extend({
 					`/recetas/usuario/${this.idUsuario}?pagina=${this.paginaActual}`
 				)
 				.then(({ data }) => {
+					console.log(data);
+
+					// mostrar la preparacion de la receta como cadena y traducir codigos por ej. &nbsp; por su quivalente en html
+					data.data.forEach((receta) => {
+						receta.preparacion = receta.preparacion
+							.replace(/&nbsp;/g, " ") // &nbsp; -> " "
+							.replace(/&amp;/g, "&") // &amp; -> "&"
+							.replace(/&quot;/g, '"') // &quot; -> '"'
+							.replace(/&lt;/g, "<") // &lt; -> "<"
+							.replace(/&gt;/g, ">"); // &gt; -> ">"
+					});
+
 					this.recetas.push(...data.data); // agregar las recetas al final de la lista
 					this.colores.push(...data.colores); // agregar el color promedio de cada receta al final de la lista
 					this.totalRecetas = data.total;

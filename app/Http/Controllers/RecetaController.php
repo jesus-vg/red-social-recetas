@@ -9,12 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
 class RecetaController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth', ['except' => 'show']); // only authenticated users can access this controller
+		$this->middleware('auth', ['except' => ['show', 'paginacionRecetas']]); // only authenticated users can access this controller
 		// https://www.udemy.com/course/curso-laravel-crea-aplicaciones-y-sitios-web-con-php-y-mvc/learn/lecture/20324719
 	}
 
@@ -65,6 +66,11 @@ class RecetaController extends Controller
 
 				// guardamos el color promedio en el array
 				array_push($array_colores, $color);
+
+				// convertir a una cadena de texto la preparacion de la receta y mostrar solo 20 palabras
+				// $preparacion = Str::words(strip_tags($receta->preparacion), 20);
+				// $receta->preparacion = filter_var($preparacion, FILTER_SANITIZE_STRING);
+				$receta->preparacion = Str::words(strip_tags($receta->preparacion), 20);
 			}
 		}
 		// dd($array_colores);

@@ -2326,6 +2326,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2361,6 +2364,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         var _this$recetas, _this$colores;
 
         var data = _ref.data;
+        console.log(data); // mostrar la preparacion de la receta como cadena y traducir codigos por ej. &nbsp; por su quivalente en html
+
+        data.data.forEach(function (receta) {
+          receta.preparacion = receta.preparacion.replace(/&nbsp;/g, " ") // &nbsp; -> " "
+          .replace(/&amp;/g, "&") // &amp; -> "&"
+          .replace(/&quot;/g, '"') // &quot; -> '"'
+          .replace(/&lt;/g, "<") // &lt; -> "<"
+          .replace(/&gt;/g, ">"); // &gt; -> ">"
+        });
 
         (_this$recetas = _this.recetas).push.apply(_this$recetas, _toConsumableArray(data.data)); // agregar las recetas al final de la lista
 
@@ -43995,7 +44007,7 @@ var render = function () {
                   _c("img", {
                     staticClass: "card-img-top img-receta lazyload blur-up",
                     attrs: {
-                      alt: "Card image cap",
+                      alt: receta.titulo,
                       "data-src": "/storage/" + receta.imagen,
                     },
                   }),
@@ -44006,6 +44018,14 @@ var render = function () {
                 _c("h5", { staticClass: "card-title" }, [
                   _vm._v(
                     "\n\t\t\t\t\t\t" + _vm._s(receta.titulo) + "\n\t\t\t\t\t"
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "card-text" }, [
+                  _vm._v(
+                    "\n\t\t\t\t\t\t" +
+                      _vm._s(receta.preparacion) +
+                      "\n\t\t\t\t\t"
                   ),
                 ]),
                 _vm._v(" "),

@@ -18,7 +18,7 @@
 					<span class="font-weit-bold text-primary">Escrito en: </span> {{ $receta->categories->nombre }}
 				</p>
 			</div>
-			<div class="col-md-6 text-right">
+			<div class="col-md-6 text-md-right">
 				<p>
 					<span class="font-weit-bold text-primary">Por: </span> {{ $receta->getAuthor->name }}
 				</p>
@@ -39,6 +39,20 @@
 			<h2 class="h2 text-primary">Preparación</h2>
 			{!! $receta->preparacion !!}
 		</div>
+
+		{{-- mostrar componente likes --}}
+		<likes
+			:id-user="{{ Auth::user()->id }}"
+			:id-receta="{{ $receta->id }}"
+			:total-likes="{{ 40499 }}"
+			:liked="false"
+		></likes>
+		{{-- <likes
+			:id-user="{{ Auth::user()->id }}"
+			:id-receta="{{ $receta->id }}"
+			:total-likes="{{ $receta->total_likes }}"
+			:liked="{{ $receta->liked }}"
+		></likes> --}}
 
 	</article>
 @endsection

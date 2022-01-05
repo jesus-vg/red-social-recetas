@@ -57,6 +57,9 @@ Vue.component(
 // componente para mostrar un loader
 Vue.component("loader", require("./components/Loader.vue").default);
 
+// componente para mostrar los likes
+Vue.component("likes", require("./components/Likes.vue").default);
+
 /**
  * Here we register the Vue plugins
  *

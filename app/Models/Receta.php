@@ -59,4 +59,26 @@ class Receta extends Model
 	{
 		return $this->belongsTo(User::class, 'user_id');
 	}
+
+	/**
+	 * Establecer la relación de muchos a muchos entre Receta y likes_receta_pivot.
+	 * @doc https://laravel.com/docs/8.x/eloquent-relationships
+	 * @doc https://laravel.com/docs/8.x/eloquent-relationships#many-to-many
+	 * @doc https://laravel.com/docs/8.x/eloquent-relationships#many-to-many-pivot-tables
+	 * @doc https://laravel.com/docs/8.x/eloquent-relationships#many-to-many-pivot-tables-with-custom-keys
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function likes()
+	{
+		return $this->belongsToMany(User::class, 'likes_receta_pivot', 'receta_id', 'user_id');
+		/**
+		 * Donde:
+		 * User::class				Es el modelo al que pertenece la relacion.
+		 * 'likes_receta_pivot'		Es el nombre de la tabla pivot.
+		 * 'receta_id'				Es el nombre del campo de la tabla pivot que contiene la id de la receta.
+		 * 							(se va a relacionar con el id de la receta de este modelo).
+		 * 'user_id'				Es el nombre del campo de la tabla pivot que contiene la id del usuario.
+		 * 							(Se va a relacionar con el id del usuario del modelo declarado en el 1er parametro).
+		 */
+	}
 }

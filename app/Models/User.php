@@ -82,4 +82,20 @@ class User extends Authenticatable
 			$user->profile()->create();
 		});
 	}
+
+	/**
+	 * Establecemos la relacion para mostrar las recetas que le han gustado el usuario.
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function likes()
+	{
+		return $this->belongsToMany(Receta::class, 'likes_receta_pivot', 'user_id', 'receta_id');
+		/**
+		 * Donde:
+		 * Receta::class			Es el modelo al que pertenece la relacion.
+		 * 'likes_receta_pivot'		Es el nombre de la tabla pivote que contiene los likes.
+		 * 'user_id'				Es el nombre del campo de la tabla pivote que contiene el id del usuario para relacionarlo con el modelo de usuario.
+		 * 'receta_id'				Es el nombre del campo de la tabla pivote que contiene el id de la receta para relacionarlo con el modelo de receta.
+		 */
+	}
 }

@@ -25,12 +25,13 @@ export default Vue.extend({
 			default: 0,
 			required: true,
 		},
-		idUser: {
+		idReceta: {
 			type: Number,
 			required: true,
 		},
-		idReceta: {
-			type: Number,
+		isRegistered: {
+			type: Boolean,
+			default: false,
 			required: true,
 		},
 	},
@@ -42,16 +43,25 @@ export default Vue.extend({
 	},
 	methods: {
 		like() {
-			this.isLiked = !this.isLiked;
-			this.totalLikesReceta += this.isLiked ? 1 : -1;
-			// this.likePost();
+			if (this.isRegistered) {
+				this.isLiked = !this.isLiked;
+				this.totalLikesReceta += this.isLiked ? 1 : -1;
+				this.likePost();
+			} else {
+				// redirect to login
+				goToLogin();
+			}
 		},
 		likePost() {
-			axios.post("/like", {
-				idUser: this.idUser,
-				liked: this.liked,
-				totalLikesReceta: this.totalLikesReceta,
-			});
+			axios
+				.post(`/recetas/likes/${this.idReceta}`)
+				.then((response) => {})
+				.catch((error) => {
+					this.isLiked = !this.isLiked;
+				});
+		},
+		goToLogin() {
+			window.location.href = "/login";
 		},
 	},
 	computed: {

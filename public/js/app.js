@@ -2242,12 +2242,13 @@ __webpack_require__.r(__webpack_exports__);
       "default": 0,
       required: true
     },
-    idUser: {
+    idReceta: {
       type: Number,
       required: true
     },
-    idReceta: {
-      type: Number,
+    isRegistered: {
+      type: Boolean,
+      "default": false,
       required: true
     }
   },
@@ -2259,15 +2260,24 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     like: function like() {
-      this.isLiked = !this.isLiked;
-      this.totalLikesReceta += this.isLiked ? 1 : -1; // this.likePost();
+      if (this.isRegistered) {
+        this.isLiked = !this.isLiked;
+        this.totalLikesReceta += this.isLiked ? 1 : -1;
+        this.likePost();
+      } else {
+        // redirect to login
+        goToLogin();
+      }
     },
     likePost: function likePost() {
-      axios.post("/like", {
-        idUser: this.idUser,
-        liked: this.liked,
-        totalLikesReceta: this.totalLikesReceta
+      var _this = this;
+
+      axios.post("/recetas/likes/".concat(this.idReceta)).then(function (response) {})["catch"](function (error) {
+        _this.isLiked = !_this.isLiked;
       });
+    },
+    goToLogin: function goToLogin() {
+      window.location.href = "/login";
     }
   },
   computed: {

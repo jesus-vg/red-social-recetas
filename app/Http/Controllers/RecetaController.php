@@ -226,7 +226,29 @@ class RecetaController extends Controller
 		// dd($receta);
 		// return $receta;
 		//
-		return view('recetas.show', ['receta' => $receta]);
+
+		// array para datos de los likes
+		$likes = [];
+
+		// preguntamos si el usuario esta autenticado
+		if (auth()->check()) {
+			// obtenemos el id del usuario autenticado
+			$user_id = auth()->user()->id;
+
+			// obtenemos el total de likes de la receta
+			$total_likes = $receta->likes()->count();
+
+			// consultamos si el usuario actual le dio like a la receta, true or false
+			$liked = $receta->likes()->where('user_id', $user_id)->exists();
+
+			// agregamos la informacion al array $likes
+			$likes = [
+				'total_likes' => $total_likes,
+				'liked' => $liked,
+			];
+		}
+
+		return view('recetas.show', ['receta' => $receta, 'likes' => $likes]);
 	}
 
 	/**

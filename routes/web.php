@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LikesController;
 use App\Http\Controllers\PerfilController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecetaController;
@@ -48,6 +49,10 @@ Route::get('/recetas/usuario/{idUsuario}', [RecetaController::class, 'paginacion
 
 // rutas version corta de recetas
 // Route::resource('recetas', 'RecetaController');
+
+// Ruta para almacenar los likes de una receta
+Route::post('/recetas/likes/{receta}', [LikesController::class, 'update'])->name('likes.update')->where('idReceta', '[0-9]+');
+
 
 // routes for the profile user
 Route::get('/profile/{perfil}', [PerfilController::class, 'show'])->name('profile.show');

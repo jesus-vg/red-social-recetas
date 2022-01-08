@@ -228,25 +228,26 @@ class RecetaController extends Controller
 		//
 
 		// array para datos de los likes
-		$likes = [];
+		$likes = array(
+			'total_likes' => $receta->likes->count(), // total likes
+			'liked' => false,
+		);
 
-		// preguntamos si el usuario esta autenticado
+		// preguntamos si el usuario esta autenticado para modificar el array $likes y actualizar el valor de liked
 		if (auth()->check()) {
 			// obtenemos el id del usuario autenticado
 			$user_id = auth()->user()->id;
 
-			// obtenemos el total de likes de la receta
-			$total_likes = $receta->likes()->count();
-
 			// consultamos si el usuario actual le dio like a la receta, true or false
 			$liked = $receta->likes()->where('user_id', $user_id)->exists();
 
-			// agregamos la informacion al array $likes
-			$likes = [
-				'total_likes' => $total_likes,
-				'liked' => $liked,
-			];
+			// actualizamos el array $likes con el valor de liked
+			$likes['liked'] = $liked;
 		}
+
+		// convertimos el array de likes a un objeto de clase POO
+		$likes = (object) $likes;
+		// dd($likes);
 
 		return view('recetas.show', ['receta' => $receta, 'likes' => $likes]);
 	}

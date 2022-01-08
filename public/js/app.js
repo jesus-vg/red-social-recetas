@@ -2260,24 +2260,29 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     like: function like() {
-      if (this.isRegistered) {
-        this.isLiked = !this.isLiked;
-        this.totalLikesReceta += this.isLiked ? 1 : -1;
-        this.likePost();
-      } else {
-        // redirect to login
-        goToLogin();
-      }
-    },
-    likePost: function likePost() {
       var _this = this;
 
-      axios.post("/recetas/likes/".concat(this.idReceta)).then(function (response) {})["catch"](function (error) {
-        _this.isLiked = !_this.isLiked;
-      });
-    },
-    goToLogin: function goToLogin() {
-      window.location.href = "/login";
+      if (this.isRegistered) {
+        // envia el like a la api
+        axios.post("/recetas/likes/".concat(this.idReceta)).then(function (_ref) {
+          var data = _ref.data;
+
+          // console.log(data); // attached: [6] detached: []
+          if (data.attached.length > 0) {
+            // attached = El like se ha registrado en la base de datos
+            _this.isLiked = true;
+            _this.totalLikesReceta++;
+          } else {
+            // detached = El like se ha eliminado de la base de datos
+            _this.isLiked = false;
+            _this.totalLikesReceta--;
+          }
+        })["catch"](function (error) {// this.updateLikes();
+        });
+      } else {
+        // redirect to login
+        window.location.href = "/login";
+      }
     }
   },
   computed: {

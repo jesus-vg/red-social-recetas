@@ -40,14 +40,12 @@
 			{!! $receta->preparacion !!}
 		</div>
 
-
-
 		{{-- mostrar componente likes --}}
 		<likes
 			:is-registered="{{ Auth::user()?->id ? 'true' : 'false' }}"
 			:id-receta="{{ $receta->id }}"
-			:total-likes="{{ $likes['total_likes'] }}"
-			:liked="{{ $likes['liked'] ? 'true' : 'false' }}"
+			:total-likes="{{ $likes->total_likes }}"
+			:liked="{{ $likes->liked ? 'true' : 'false' }}"
 		></likes>
 
 	</article>

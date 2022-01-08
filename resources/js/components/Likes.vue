@@ -44,24 +44,29 @@ export default Vue.extend({
 	methods: {
 		like() {
 			if (this.isRegistered) {
-				this.isLiked = !this.isLiked;
-				this.totalLikesReceta += this.isLiked ? 1 : -1;
-				this.likePost();
+				// envia el like a la api
+				axios
+					.post(`/recetas/likes/${this.idReceta}`)
+					.then(({ data }) => {
+						// console.log(data); // attached: [6] detached: []
+
+						if (data.attached.length > 0) {
+							// attached = El like se ha registrado en la base de datos
+							this.isLiked = true;
+							this.totalLikesReceta++;
+						} else {
+							// detached = El like se ha eliminado de la base de datos
+							this.isLiked = false;
+							this.totalLikesReceta--;
+						}
+					})
+					.catch((error) => {
+						// this.updateLikes();
+					});
 			} else {
 				// redirect to login
-				goToLogin();
+				window.location.href = "/login";
 			}
-		},
-		likePost() {
-			axios
-				.post(`/recetas/likes/${this.idReceta}`)
-				.then((response) => {})
-				.catch((error) => {
-					this.isLiked = !this.isLiked;
-				});
-		},
-		goToLogin() {
-			window.location.href = "/login";
 		},
 	},
 	computed: {

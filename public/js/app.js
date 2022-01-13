@@ -2245,44 +2245,49 @@ __webpack_require__.r(__webpack_exports__);
     idReceta: {
       type: Number,
       required: true
-    },
-    isRegistered: {
-      type: Boolean,
-      "default": false,
-      required: true
     }
   },
   data: function data() {
     return {
       isLiked: this.liked,
-      totalLikesReceta: this.totalLikes
+      totalLikesReceta: this.totalLikes,
+      btnActive: false
     };
   },
   methods: {
     like: function like() {
       var _this = this;
 
-      if (this.isRegistered) {
-        // envia el like a la api
-        axios.post("/recetas/likes/".concat(this.idReceta)).then(function (_ref) {
-          var data = _ref.data;
-
-          // console.log(data); // attached: [6] detached: []
-          if (data.attached.length > 0) {
-            // attached = El like se ha registrado en la base de datos
-            _this.isLiked = true;
-            _this.totalLikesReceta++;
-          } else {
-            // detached = El like se ha eliminado de la base de datos
-            _this.isLiked = false;
-            _this.totalLikesReceta--;
-          }
-        })["catch"](function (error) {// this.updateLikes();
-        });
-      } else {
-        // redirect to login
-        window.location.href = "/login";
+      // evitar que se pueda dar like más de una vez btnActive
+      if (this.btnActive) {
+        return;
       }
+
+      this.btnActive = true; // envia el like a la api
+
+      axios.post("/recetas/likes/".concat(this.idReceta)).then(function (_ref) {
+        var data = _ref.data;
+
+        // console.log(data); // attached: [6] detached: []
+        if (data.attached.length > 0) {
+          // attached = El like se ha registrado en la base de datos
+          _this.totalLikesReceta++;
+        } else {
+          // detached = El like se ha eliminado de la base de datos
+          _this.totalLikesReceta--;
+        }
+
+        _this.isLiked = !_this.isLiked;
+      })["catch"](function (error) {
+        // console.log(error);
+        // validamos si el error es de tipo 401 (no autorizado)
+        if (error.response.status === 401) {
+          // si es 401, redireccionamos al login
+          window.location.href = "/login";
+        }
+      })["finally"](function () {
+        _this.btnActive = false;
+      });
     }
   },
   computed: {

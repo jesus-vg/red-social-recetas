@@ -37,7 +37,11 @@ class RecetaController extends Controller
 		// mostrar las recetas del usuario logueado con paginacion de 5 en 5
 		$recipes = Auth::user()->recipes()->paginate(5);
 
-		return view('recetas.index', ['recetas' => $recipes]);
+		// obtener las recetas que les ha dado like con paginacion de 10 en 10
+		$recipesLikes = Auth::user()->likes()->paginate(10, ['*'], 'likes');
+		// dd($recipesLikes);
+
+		return view('recetas.index', ['recetas' => $recipes, 'recetasLikes' => $recipesLikes]);
 	}
 
 

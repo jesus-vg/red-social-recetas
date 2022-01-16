@@ -10,7 +10,6 @@ import VueSweetalert2 from "vue-sweetalert2";
 // we import the styles, you don't need to `import` the entire library
 import "sweetalert2/dist/sweetalert2.min.css";
 // https://www.udemy.com/course/curso-laravel-crea-aplicaciones-y-sitios-web-con-php-y-mvc/learn/lecture/20325255
-
 import "lazysizes";
 // import a plugin
 import "lazysizes/plugins/parent-fit/ls.parent-fit";
@@ -59,6 +58,15 @@ Vue.component("loader", require("./components/Loader.vue").default);
 
 // componente para mostrar los likes
 Vue.component("likes", require("./components/Likes.vue").default);
+
+// componente para mostrar el carrusel de recetas recientes
+Vue.component(
+	"ultimas-recetas",
+	require("./components/CarruselUltimasRecetas.vue").default
+);
+
+// componente para galerias
+Vue.component("galeria-recetas-categoria", require("./components/GaleriaRecetasCategoria.vue").default);
 
 /**
  * Here we register the Vue plugins

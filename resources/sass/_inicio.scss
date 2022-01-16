@@ -1,0 +1,185 @@
+// estilos para los items del carrusel recetas recientes
+.item {
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.item,
+.item__image {
+  width: 100%;
+  height: 500px;
+  font-size: 1rem;
+}
+
+.item__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.splide__progress__bar {
+  height: 3px;
+  background-color: $blue !important;
+}
+
+.item__content {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(
+                  180deg,
+                  rgba(0, 0, 0, 0) 0%,
+                  rgba(0, 0, 0, 0.1) 9%,
+                  rgba(0, 0, 0, 1) 100%
+  );
+  color: #fff;
+  padding: 0rem 0.5rem 0.5rem;
+  z-index: 1;
+  border-radius: 0.25rem;
+}
+
+.item__description {
+  overflow: hidden;
+}
+
+// estilos carrusel paginado
+.splide__pagination {
+  bottom: -1rem !important;
+}
+
+.splide__pagination__page.is-active {
+  background-color: $blue !important;
+  width: 24px !important;
+  height: 3px !important;
+}
+
+.splide__pagination__page {
+  width: 16px !important;
+  height: 3px !important;
+  border-radius: 0.25rem !important;
+  transition: width 0.5s !important;
+  transform: scale(1.4) !important;
+}
+
+.splide__pagination li {
+  margin: 0 4px !important;
+}
+
+// otros estilos
+.wrapper-gallery h2:first-child {
+  border-bottom: 3px solid $blue;
+  display: inline-block;
+  padding-bottom: .5rem;
+  padding-right: 2rem;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 150px);
+  grid-auto-rows: 232px; /*ajustar para que coincida con el gap*/
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 6rem;
+}
+
+
+.gallery__item {
+  overflow: hidden;
+  grid-column: span 2; /* 150px * 2 = 300 + 16 (gap) = 316 */
+  height: 316px; /* se estan desbordando 316 - 232 = ? px*/
+  transition: .2s filter;
+}
+
+.gallery__item:hover {
+  filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+}
+
+.gallery__item:first-of-type {
+  grid-column: 2 / span 2;
+}
+
+.hexa {
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  height: 316px;
+  position: relative;
+}
+
+.hexa img, .gallery__item__details {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.hexa img {
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.7);
+}
+
+.hexa:hover img {
+  filter: brightness(0.4);
+}
+
+.hexa .gallery__item__details {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  filter: brightness(1);
+}
+
+/* Media queries */
+
+// estilos aplicados desde 0px hasta 568px
+@media (max-width: 568px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fit, 100px);
+    margin-bottom: 0;
+  }
+  .gallery__item:first-of-type {
+    grid-column: 1 / span 2;
+  }
+  .gallery__item, .hexa {
+    height: 232px; /*debe ser el mismo que en gallery*/
+  }
+  .hexa {
+    clip-path: inherit;
+    border-radius: 0.3rem;
+    overflow: hidden;
+  }
+
+  .item,
+  .item__image {
+    height: 300px;
+  }
+}
+
+@media screen and (min-width: 569px) and (max-width: 767px) {
+  .gallery__item:nth-of-type(odd) {
+    grid-column: 2 / span 2;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .gallery__item:nth-of-type(3n +1) {
+    grid-column: 2 / span 2;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .gallery__item:nth-of-type(4n +1) {
+    grid-column: 2 / span 2;
+  }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1305px) {
+  .gallery__item:nth-of-type(5n +1) {
+    grid-column: 2 / span 2;
+  }
+}
+
+@media (min-width: 1306px) {
+  .gallery__item:nth-of-type(6n +1) {
+    grid-column: 2 / span 2;
+  }
+}

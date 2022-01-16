@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InicioController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\PerfilController;
 use Illuminate\Support\Facades\Route;
@@ -25,9 +26,12 @@ use App\Http\Controllers\RecetaController;
  * https://www.udemy.com/course/curso-laravel-crea-aplicaciones-y-sitios-web-con-php-y-mvc/learn/lecture/20324653
  */
 
-Route::get('/', function () {
-	return view('welcome');
-});
+// Route::get('/', function () {
+// 	return view('welcome');
+// });
+
+// Route::get('/', 'InicioController@index');
+Route::get('/', [InicioController::class, 'index'])->name('inicio.index');
 
 Route::get('/recetas', [RecetaController::class, 'index'])->name('recetas.index');
 

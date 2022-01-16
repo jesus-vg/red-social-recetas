@@ -25,9 +25,11 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@splidejs/splide": "^3.6.9",
         "cropperjs": "^1.5.12",
         "lazysizes": "^5.3.2",
         "magic-grid": "^3.2.4",
+        "vanilla-lazyload": "^17.5.0",
         "vue-avatar": "^2.3.3",
         "vue-sweetalert2": "^5.0.2"
     }

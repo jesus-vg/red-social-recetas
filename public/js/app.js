@@ -5069,6 +5069,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (vue__WEBPACK_IMPORTED_MODULE_1__["default"].extend({
@@ -5234,6 +5235,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
 //
 //
 //
@@ -5854,7 +5856,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.lazySizesConfig = window.lazySizesConfig || {}; // configure lazySizes para que cargue las imagenes solo cuando se hace scroll
 
-window.lazySizesConfig.loadMode = 0;
+window.lazySizesConfig.loadMode = 1;
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
 /**
  * The following block of code may be used to automatically register your
@@ -46718,7 +46720,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&scoped=true& */ "./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&scoped=true&");
+/* harmony import */ var _GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044& */ "./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&");
 /* harmony import */ var _GaleriaRecetasCategoria_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GaleriaRecetasCategoria.vue?vue&type=script&lang=js& */ "./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -46730,11 +46732,11 @@ __webpack_require__.r(__webpack_exports__);
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _GaleriaRecetasCategoria_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044___WEBPACK_IMPORTED_MODULE_0__.render,
+  _GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "40c29044",
+  null,
   null
   
 )
@@ -47159,19 +47161,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&scoped=true&":
-/*!********************************************************************************************************!*\
-  !*** ./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&scoped=true& ***!
-  \********************************************************************************************************/
+/***/ "./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044& ***!
+  \********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GaleriaRecetasCategoria_vue_vue_type_template_id_40c29044___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&");
 
 
 /***/ }),
@@ -47303,7 +47305,7 @@ var render = function () {
                 },
                 [
                   _c("img", {
-                    staticClass: "img-fluid rounded lazyload",
+                    staticClass: "img-fluid lazyload blur-up",
                     attrs: {
                       "data-src": "/storage/" + receta.imagen,
                       alt: receta.titulo,
@@ -47424,10 +47426,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&scoped=true&":
-/*!***********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&scoped=true& ***!
-  \***********************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/GaleriaRecetasCategoria.vue?vue&type=template&id=40c29044& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -47456,12 +47458,14 @@ var render = function () {
             },
             [
               _c("img", {
-                staticClass: "lazyload ",
+                staticClass: "lazyload blur-up",
                 attrs: {
                   "data-src": "/storage/" + receta.imagen,
                   alt: receta.titulo,
                 },
               }),
+              _vm._v(" "),
+              _c("div", { staticClass: "mask" }),
               _vm._v(" "),
               _c("div", { staticClass: "gallery__item__details text-white" }, [
                 _c("h3", { staticClass: "h3 gallery__item__titulo" }, [

@@ -18,7 +18,7 @@ import "lazysizes/plugins/parent-fit/ls.parent-fit";
 window.lazySizesConfig = window.lazySizesConfig || {};
 
 // configure lazySizes para que cargue las imagenes solo cuando se hace scroll
-window.lazySizesConfig.loadMode = 0;
+window.lazySizesConfig.loadMode = 1;
 
 window.Vue = require("vue").default;
 

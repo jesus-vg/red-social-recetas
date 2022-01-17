@@ -6,7 +6,8 @@
 				<div class="hexa"
 					 :style="{ backgroundColor: `rgb(${receta.color})` }">
 
-					<img :data-src="'/storage/'+receta.imagen" class="lazyload " :alt="receta.titulo">
+					<img :data-src="'/storage/'+receta.imagen" class="lazyload blur-up" :alt="receta.titulo">
+					<div class="mask"></div>
 					<div class="gallery__item__details text-white">
 						<h3 class="h3 gallery__item__titulo">
 							{{ receta.titulo }}
@@ -59,7 +60,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-
-</style>

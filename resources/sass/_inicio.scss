@@ -104,7 +104,7 @@
   position: relative;
 }
 
-.hexa img, .gallery__item__details {
+.hexa img, .gallery__item__details, .hexa .mask {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -113,11 +113,15 @@
 .hexa img {
   object-fit: cover;
   object-position: center;
-  filter: brightness(0.7);
 }
 
-.hexa:hover img {
-  filter: brightness(0.4);
+.hexa .mask {
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: background-color 0.5s;
+}
+
+.hexa:hover .mask {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .hexa .gallery__item__details {

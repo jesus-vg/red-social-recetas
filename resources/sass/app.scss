@@ -19,14 +19,21 @@
 // styles inicio
 @import "inicio";
 
+body {
+  min-width: 320px;
+}
+
+
 // lazy load styles
+.blur-up {
+  transition: filter 1s, -webkit-filter 1s;
+}
+
 .blur-up.lazyloading {
-	-webkit-filter: blur(7px);
-	filter: blur(7px);
-	transition: filter 1s, -webkit-filter 1s;
+  -webkit-filter: blur(7px);
+  filter: blur(7px);
 }
 
 .blur-up.lazyloaded {
-	-webkit-filter: blur(0);
-	filter: blur(0);
+  filter: blur(0);
 }

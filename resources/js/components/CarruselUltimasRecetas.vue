@@ -14,10 +14,11 @@
 						>
 							<img
 								:data-src="'/storage/' + receta.imagen"
-								class="img-fluid rounded lazyload"
+								class="img-fluid lazyload blur-up"
 								:alt="receta.titulo"
 							/>
 						</div>
+
 						<div class="item__content">
 							<h3 class="item__title">
 								{{ receta.titulo }}

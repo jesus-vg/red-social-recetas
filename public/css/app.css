@@ -1,9 +1,5 @@
 @import url(https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap);
 @charset "UTF-8";
-body {
-  min-width: 320px;
-}
-
 /*!
  * Bootstrap v4.6.1 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
@@ -10444,7 +10440,7 @@ h3 {
   position: relative;
 }
 
-.hexa img, .gallery__item__details {
+.hexa img, .gallery__item__details, .hexa .mask {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -10455,11 +10451,15 @@ h3 {
      object-fit: cover;
   -o-object-position: center;
      object-position: center;
-  filter: brightness(0.7);
 }
 
-.hexa:hover img {
-  filter: brightness(0.4);
+.hexa .mask {
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: background-color 0.5s;
+}
+
+.hexa:hover .mask {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .hexa .gallery__item__details {
@@ -10523,9 +10523,16 @@ h3 {
     grid-column: 2/span 2;
   }
 }
+body {
+  min-width: 320px;
+}
+
+.blur-up {
+  transition: filter 1s;
+}
+
 .blur-up.lazyloading {
   filter: blur(7px);
-  transition: filter 1s;
 }
 
 .blur-up.lazyloaded {

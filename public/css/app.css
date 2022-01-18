@@ -10357,8 +10357,20 @@ h3 {
      object-fit: cover;
 }
 
+.splide {
+  border-radius: 0.3rem;
+  overflow: hidden;
+}
+
+.splide__progress {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
 .splide__progress__bar {
-  height: 3px;
+  height: 5px;
+  border-radius: 5px;
   background-color: #008638 !important;
 }
 
@@ -10368,17 +10380,13 @@ h3 {
   width: 100%;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 9%, black 100%);
   color: #fff;
-  padding: 0rem 0.5rem 0.5rem;
+  padding: 1.5rem 0.5rem;
   z-index: 1;
   border-radius: 0.25rem;
 }
 
 .item__description {
   overflow: hidden;
-}
-
-.splide__pagination {
-  bottom: -1rem !important;
 }
 
 .splide__pagination__page.is-active {

@@ -19,14 +19,14 @@
 							/>
 						</div>
 
-						<div class="item__content">
+						<div class="item__content text-center">
 							<h3 class="item__title">
 								{{ receta.titulo }}
 							</h3>
 							<p class="item__description">
 								{{ receta.preparacion }}
 							</p>
-							<div class="text-center">
+							<div class="">
 								<a
 									class="btn btn-primary"
 									:href="'/recetas/' + receta.id"
@@ -63,7 +63,18 @@ export default Vue.extend({
 		};
 	},
 	mounted() {
-		console.log(this.recetas);
+		// console.log(this.recetas);
+
+		// mostrar la preparacion de la receta como cadena y traducir codigos por ej. &nbsp; por su quivalente en html
+		this.recetas.forEach((receta) => {
+			receta.preparacion = receta.preparacion
+				.replace(/&nbsp;/g, " ") // &nbsp; -> " "
+				.replace(/&amp;/g, "&") // &amp; -> "&"
+				.replace(/&quot;/g, '"') // &quot; -> '"'
+				.replace(/&lt;/g, "<") // &lt; -> "<"
+				.replace(/&gt;/g, ">"); // &gt; -> ">"
+		});
+
 		const splide = new Splide(".splide", {
 			type: "loop",
 			drag: "free",

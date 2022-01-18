@@ -23,6 +23,12 @@ body {
   min-width: 320px;
 }
 
+.title {
+  border-bottom: 3px solid $blue;
+  display: inline-block;
+  padding-bottom: .5rem;
+  padding-right: 2rem;
+}
 
 // lazy load styles
 .blur-up {

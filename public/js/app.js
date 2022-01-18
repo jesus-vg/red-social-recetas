@@ -5085,7 +5085,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log(this.recetas);
+    // console.log(this.recetas);
+    // mostrar la preparacion de la receta como cadena y traducir codigos por ej. &nbsp; por su quivalente en html
+    this.recetas.forEach(function (receta) {
+      receta.preparacion = receta.preparacion.replace(/&nbsp;/g, " ") // &nbsp; -> " "
+      .replace(/&amp;/g, "&") // &amp; -> "&"
+      .replace(/&quot;/g, '"') // &quot; -> '"'
+      .replace(/&lt;/g, "<") // &lt; -> "<"
+      .replace(/&gt;/g, ">"); // &gt; -> ">"
+    });
     var splide = new _splidejs_splide__WEBPACK_IMPORTED_MODULE_0__["default"](".splide", {
       type: "loop",
       drag: "free",
@@ -5235,6 +5243,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _FechaReceta__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FechaReceta */ "./resources/js/components/FechaReceta.vue");
 //
 //
 //
@@ -5266,6 +5275,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     recetas: {
@@ -5278,6 +5305,9 @@ __webpack_require__.r(__webpack_exports__);
       "default": "Sin definir..."
     }
   },
+  components: {
+    fechaReceta: _FechaReceta__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       dataRecetas: JSON.parse(this.recetas)
@@ -5285,13 +5315,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     // mostrar la preparacion de la receta como cadena y traducir codigos por ej. &nbsp; por su quivalente en html
-    this.dataRecetas.forEach(function (receta) {
-      receta.preparacion = receta.preparacion.replace(/&nbsp;/g, " ") // &nbsp; -> " "
-      .replace(/&amp;/g, "&") // &amp; -> "&"
-      .replace(/&quot;/g, '"') // &quot; -> '"'
-      .replace(/&lt;/g, "<") // &lt; -> "<"
-      .replace(/&gt;/g, ">"); // &gt; -> ">"
+    this.dataRecetas.forEach(function (categoria) {
+      categoria.data.forEach(function (receta) {
+        receta.preparacion = receta.preparacion.replace(/&nbsp;/g, " ") // &nbsp; -> " "
+        .replace(/&amp;/g, "&") // &amp; -> "&"
+        .replace(/&quot;/g, '"') // &quot; -> '"'
+        .replace(/&lt;/g, "<") // &lt; -> "<"
+        .replace(/&gt;/g, ">"); // &gt; -> ">"
+      });
     });
+    console.log(this.dataRecetas);
   }
 });
 
@@ -47314,7 +47347,7 @@ var render = function () {
                 ]
               ),
               _vm._v(" "),
-              _c("div", { staticClass: "item__content" }, [
+              _c("div", { staticClass: "item__content text-center" }, [
                 _c("h3", { staticClass: "item__title" }, [
                   _vm._v(
                     "\n\t\t\t\t\t\t\t" +
@@ -47331,7 +47364,7 @@ var render = function () {
                   ),
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "text-center" }, [
+                _c("div", {}, [
                   _c(
                     "a",
                     {
@@ -47443,52 +47476,88 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "wrapper-gallery pt-5" }, [
-    _c("h2", [_vm._v(_vm._s(_vm.categoria))]),
-    _vm._v(" "),
     _c(
       "div",
       { staticClass: "gallery" },
-      _vm._l(_vm.dataRecetas, function (receta) {
-        return _c("article", { staticClass: "gallery__item" }, [
-          _c(
-            "div",
-            {
-              staticClass: "hexa",
-              style: { backgroundColor: "rgb(" + receta.color + ")" },
-            },
-            [
-              _c("img", {
-                staticClass: "lazyload blur-up",
-                attrs: {
-                  "data-src": "/storage/" + receta.imagen,
-                  alt: receta.titulo,
-                },
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "mask" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "gallery__item__details text-white" }, [
-                _c("h3", { staticClass: "h3 gallery__item__titulo" }, [
-                  _vm._v(
-                    "\n\t\t\t\t\t\t" + _vm._s(receta.titulo) + "\n\t\t\t\t\t"
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "gallery__item__body" }, [
-                  _vm._v(
-                    "\n\t\t\t\t\t\t" +
-                      _vm._s(receta.preparacion) +
-                      "\n\t\t\t\t\t"
-                  ),
-                ]),
-                _vm._v(" "),
-                _vm._m(0, true),
+      [
+        _vm._l(_vm.dataRecetas, function (ref) {
+          var categoria = ref.categoria
+          var data = ref.data
+          return [
+            _c("article", { staticClass: "gallery__item" }, [
+              _c("div", { staticClass: "hexa text-white bg-primary" }, [
+                _c("h2", [_vm._v(_vm._s(categoria))]),
               ]),
-            ]
-          ),
-        ])
-      }),
-      0
+            ]),
+            _vm._v(" "),
+            _vm._l(data, function (receta) {
+              return [
+                _c("article", { staticClass: "gallery__item" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "hexa",
+                      style: { backgroundColor: "rgb(" + receta.color + ")" },
+                    },
+                    [
+                      _c("img", {
+                        staticClass: "lazyload blur-up",
+                        attrs: {
+                          "data-src": "/storage/" + receta.imagen,
+                          alt: receta.titulo,
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mask" }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "gallery__item__details text-white" },
+                        [
+                          _c(
+                            "h3",
+                            { staticClass: "h3 gallery__item__titulo" },
+                            [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\t\t" +
+                                  _vm._s(receta.titulo) +
+                                  "\n\n\t\t\t\t\t\t\t"
+                              ),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "font-italic" }, [
+                            _c(
+                              "small",
+                              [
+                                _c("fecha-receta", {
+                                  attrs: { fecha: receta.created_at },
+                                }),
+                              ],
+                              1
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "gallery__item__body" }, [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t" +
+                                _vm._s(receta.preparacion) +
+                                "\n\t\t\t\t\t\t\t"
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _vm._m(0, true),
+                        ]
+                      ),
+                    ]
+                  ),
+                ]),
+              ]
+            }),
+          ]
+        }),
+      ],
+      2
     ),
   ])
 }

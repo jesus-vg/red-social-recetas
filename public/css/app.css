@@ -10399,13 +10399,6 @@ h3 {
   margin: 0 4px !important;
 }
 
-.wrapper-gallery h2:first-child {
-  border-bottom: 3px solid #008638;
-  display: inline-block;
-  padding-bottom: 0.5rem;
-  padding-right: 2rem;
-}
-
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, 150px);
@@ -10433,6 +10426,13 @@ h3 {
   grid-column: 2/span 2;
 }
 
+.gallery__item .hexa > h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  word-break: break-word;
+}
+
 .hexa {
   -webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
           clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
@@ -10440,7 +10440,7 @@ h3 {
   position: relative;
 }
 
-.hexa img, .gallery__item__details, .hexa .mask {
+.hexa img, .gallery__item__details, .hexa .mask, .gallery__item .hexa > h2 {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -10479,6 +10479,12 @@ h3 {
 
   .gallery__item:first-of-type {
     grid-column: 1/span 2;
+    width: initial;
+    margin: initial;
+  }
+
+  .gallery__item:first-of-type .hexa > h2 {
+    width: 100%;
   }
 
   .gallery__item, .hexa {
@@ -10486,7 +10492,7 @@ h3 {
     /*debe ser el mismo que en gallery*/
   }
 
-  .hexa {
+  .hexa, .gallery__item:first-of-type .hexa {
     -webkit-clip-path: inherit;
             clip-path: inherit;
     border-radius: 0.3rem;
@@ -10513,18 +10519,20 @@ h3 {
     grid-column: 2/span 2;
   }
 }
-@media screen and (min-width: 1200px) and (max-width: 1305px) {
+@media (min-width: 1200px) {
   .gallery__item:nth-of-type(5n +1) {
-    grid-column: 2/span 2;
-  }
-}
-@media (min-width: 1306px) {
-  .gallery__item:nth-of-type(6n +1) {
     grid-column: 2/span 2;
   }
 }
 body {
   min-width: 320px;
+}
+
+.title {
+  border-bottom: 3px solid #008638;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+  padding-right: 2rem;
 }
 
 .blur-up {

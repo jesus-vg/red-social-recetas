@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryRecipe;
 use App\Models\Receta;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 require 'ImagenUtilidades.php';
@@ -36,7 +37,7 @@ class InicioController extends Controller
 		}
 
 		// array para almacenar los datos, cada categoria y sus respectivas recetas
-		$recetas_categoria = [];
+		$recetas_por_categoria = [];
 
 		// obtenemos el id y el nombre de cada categoria
 		$categorias_receta = CategoryRecipe::get( ['id', 'nombre'] )->toArray();
@@ -52,14 +53,22 @@ class InicioController extends Controller
 				->get()
 				->toArray();
 
-			// pasamos de un array asociativo a uno sin indices
-			// $recetas = array_values( $recetas );
 			// dd( $recetas );
 
-			// quitamos las etiquetas html y limitamos el contenido a 15 caracteres
+			// modificamos y agregamos datos necesarios a cada receta
 			foreach ( $recetas as $key => $receta ) {
+				// quitamos las etiquetas html y limitamos el contenido a 15 palabras
 				$recetas[ $key ][ 'preparacion' ] = Str::words( strip_tags( $receta[ 'preparacion' ] ), 15 );
-				$recetas[ $key ][ 'color' ]       = getAverageColor( $receta[ 'imagen' ] );
+
+				// obtenemos el color promedio de cada imagen
+				$recetas[ $key ][ 'color' ] = getAverageColor( $receta[ 'imagen' ] );
+
+				// obtenemos la cantidad de likes de cada receta
+				$recetas[ $key ][ 'total_likes' ] = DB::table( 'likes_receta_pivot' )
+					->select( 'id' )
+					->whereReceta_id( $receta[ 'id' ] )
+					->count();
+
 				// dd( $receta );
 			}
 
@@ -69,13 +78,14 @@ class InicioController extends Controller
 				'data'         => array_values( $recetas ),
 			];
 
-			array_push( $recetas_categoria, $data );
+			array_push( $recetas_por_categoria, $data );
 		}
-		// dd( $recetas_categoria );
+
+		// dd( $recetas_por_categoria );
 
 		return view( 'inicio.index', [
-			'recetas_recientes' => $recetas_recientes,
-			'recetas_categoria' => $recetas_categoria,
+			'recetas_recientes'     => $recetas_recientes,
+			'recetas_por_categoria' => $recetas_por_categoria,
 		] );
 	}
 }

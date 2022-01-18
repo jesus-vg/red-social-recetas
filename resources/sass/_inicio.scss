@@ -113,7 +113,6 @@
   position: relative;
 }
 
-
 .hexa img, .gallery__item__details, .hexa .mask, .gallery__item .hexa > h2 {
   width: 100%;
   height: 100%;
@@ -126,12 +125,12 @@
 }
 
 .hexa .mask {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   transition: background-color 0.5s;
 }
 
 .hexa:hover .mask {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .hexa .gallery__item__details {
@@ -139,7 +138,21 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  filter: brightness(1);
+}
+
+.gallery__item__titulo {
+  max-height: 61px;
+  overflow: hidden;
+}
+
+.gallery__item__body {
+  max-height: 70px;
+  overflow: hidden;
+}
+
+.gallery__item__footer {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 /* Media queries */

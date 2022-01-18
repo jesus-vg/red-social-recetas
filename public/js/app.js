@@ -5292,6 +5292,59 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -5312,6 +5365,24 @@ __webpack_require__.r(__webpack_exports__);
     return {
       dataRecetas: JSON.parse(this.recetas)
     };
+  },
+  methods: {
+    /**
+     * Obtener los likes de la receta, si no hay likes devuelve 0.
+     * devolvera 1k likes si hay 1000 likes o más y así sucesivamente
+     * @returns {string} string con el formato de likes, 1k, 1.5k, etc
+     */
+    getTotalLikes: function getTotalLikes() {
+      var totalLikes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "0";
+
+      if (totalLikes < 1000) {
+        return totalLikes;
+      } else if (totalLikes >= 1000 && totalLikes < 1000000) {
+        return "".concat((totalLikes / 1000).toFixed(1), "k");
+      } else if (totalLikes >= 1000000) {
+        return "".concat((totalLikes / 1000000).toFixed(1), "M");
+      }
+    }
   },
   mounted: function mounted() {
     // mostrar la preparacion de la receta como cadena y traducir codigos por ej. &nbsp; por su quivalente en html
@@ -47519,9 +47590,9 @@ var render = function () {
                             { staticClass: "h3 gallery__item__titulo" },
                             [
                               _vm._v(
-                                "\n\t\t\t\t\t\t\t\t" +
+                                "\n\t\t\t\t\t\t\t\t\t" +
                                   _vm._s(receta.titulo) +
-                                  "\n\n\t\t\t\t\t\t\t"
+                                  "\n\n\t\t\t\t\t\t\t\t"
                               ),
                             ]
                           ),
@@ -47540,13 +47611,102 @@ var render = function () {
                           _vm._v(" "),
                           _c("p", { staticClass: "gallery__item__body" }, [
                             _vm._v(
-                              "\n\t\t\t\t\t\t\t\t" +
+                              "\n\t\t\t\t\t\t\t\t\t" +
                                 _vm._s(receta.preparacion) +
-                                "\n\t\t\t\t\t\t\t"
+                                "\n\t\t\t\t\t\t\t\t"
                             ),
                           ]),
                           _vm._v(" "),
-                          _vm._m(0, true),
+                          _c("div", { staticClass: "gallery__item__footer" }, [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-primary",
+                                attrs: { href: "recetas/" + receta.id },
+                              },
+                              [_vm._v("Ver")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticStyle: { "align-self": "center" } },
+                              [
+                                _c(
+                                  "svg",
+                                  {
+                                    staticStyle: {
+                                      "enable-background": "new 0 0 512 512",
+                                    },
+                                    attrs: {
+                                      version: "1.1",
+                                      id: "Layer_1",
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                      "xmlns:xlink":
+                                        "http://www.w3.org/1999/xlink",
+                                      x: "0px",
+                                      y: "0px",
+                                      width: "24",
+                                      height: "24",
+                                      viewBox: "0 0 512 512",
+                                      "xml:space": "preserve",
+                                    },
+                                  },
+                                  [
+                                    _c("path", {
+                                      staticStyle: { fill: "#FF6647" },
+                                      attrs: {
+                                        d: "M474.655,74.503C449.169,45.72,413.943,29.87,375.467,29.87c-30.225,0-58.5,12.299-81.767,35.566\n\tc-15.522,15.523-28.33,35.26-37.699,57.931c-9.371-22.671-22.177-42.407-37.699-57.931c-23.267-23.267-51.542-35.566-81.767-35.566\n\tc-38.477,0-73.702,15.851-99.188,44.634C13.612,101.305,0,137.911,0,174.936c0,44.458,13.452,88.335,39.981,130.418\n\tc21.009,33.324,50.227,65.585,86.845,95.889c62.046,51.348,123.114,78.995,125.683,80.146c2.203,0.988,4.779,0.988,6.981,0\n\tc2.57-1.151,63.637-28.798,125.683-80.146c36.618-30.304,65.836-62.565,86.845-95.889C498.548,263.271,512,219.394,512,174.936\n\tC512,137.911,498.388,101.305,474.655,74.503z",
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      staticStyle: { fill: "#E35336" },
+                                      attrs: {
+                                        d: "M160.959,401.243c-36.618-30.304-65.836-62.565-86.845-95.889\n\tc-26.529-42.083-39.981-85.961-39.981-130.418c0-37.025,13.612-73.631,37.345-100.433c21.44-24.213,49.775-39.271,81.138-43.443\n\tc-5.286-0.786-10.653-1.189-16.082-1.189c-38.477,0-73.702,15.851-99.188,44.634C13.612,101.305,0,137.911,0,174.936\n\tc0,44.458,13.452,88.335,39.981,130.418c21.009,33.324,50.227,65.585,86.845,95.889c62.046,51.348,123.114,78.995,125.683,80.146\n\tc2.203,0.988,4.779,0.988,6.981,0c0.689-0.308,5.586-2.524,13.577-6.588C251.254,463.709,206.371,438.825,160.959,401.243z",
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                    _vm._v(" "),
+                                    _c("g"),
+                                  ]
+                                ),
+                                _vm._v(
+                                  "\n\n\t\t\t\t\t\t\t\t\t\t" +
+                                    _vm._s(
+                                      _vm.getTotalLikes(receta.total_likes)
+                                    ) +
+                                    "\n\t\t\t\t\t\t\t\t\t"
+                                ),
+                              ]
+                            ),
+                          ]),
                         ]
                       ),
                     ]
@@ -47561,18 +47721,7 @@ var render = function () {
     ),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "gallery__item__footer" }, [
-      _c("a", { staticClass: "btn btn-primary", attrs: { href: "#" } }, [
-        _vm._v("Ver"),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -15,7 +15,7 @@
 
 	{{--	mostrarmos las categorias de cada receta	--}}
 	<h2 class="title mt-5">Nuestras últimas entradas por categoría</h2>
-	<galeria-recetas-categoria recetas="{{json_encode($recetas_categoria) }}"
+	<galeria-recetas-categoria recetas="{{json_encode($recetas_por_categoria) }}"
 							   categoria="{{'categoria'}}"></galeria-recetas-categoria>{{--@foreach($recetas_categoria as $receta)
 		<galeria-recetas-categoria recetas="{{json_encode($receta['data']) }}"
 								   categoria="{{$receta['categoria']}}"></galeria-recetas-categoria>

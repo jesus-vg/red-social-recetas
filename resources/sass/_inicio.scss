@@ -155,6 +155,35 @@
   justify-content: space-evenly;
 }
 
+// estilos para galeria flex
+.gallery-flex {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+
+  &__item {
+    flex: 0 0 350px;
+    margin: 10px;
+    border-radius: 0.7rem;
+    overflow: hidden;
+
+    &--header img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 0.7rem;
+    }
+
+    &--body {
+
+    }
+
+    &--footer a {
+      display: block;
+    }
+  }
+}
+
 /* Media queries */
 
 // estilos aplicados desde 0px hasta 568px
@@ -185,13 +214,17 @@
   .item__image {
     height: 400px;
   }
+
+  .gallery-flex__item {
+
+    flex: 0 0 100%;
+  }
 }
 
 @media screen and (min-width: 569px) and (max-width: 767px) {
   .gallery__item:nth-of-type(odd) {
     grid-column: 2 / span 2;
   }
-
 }
 
 @media screen and (min-width: 768px) and (max-width: 991px) {

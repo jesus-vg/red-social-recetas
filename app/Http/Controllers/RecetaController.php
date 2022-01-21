@@ -65,7 +65,7 @@ class RecetaController extends Controller
 
             if ( $image ) {
                 // obtenemos el color promedio de la imagen
-                $color = getAverageColor( 'storage/' . $image );
+                $color = getAverageColor( $image );
                 // dd($color);
 
                 // guardamos el color promedio en el array

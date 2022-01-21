@@ -87,7 +87,7 @@ export default Vue.extend({
 					`/recetas/usuario/${this.idUsuario}?pagina=${this.paginaActual}`
 				)
 				.then(({ data }) => {
-					console.log(data);
+					// console.log(data);
 
 					// mostrar la preparacion de la receta como cadena y traducir codigos por ej. &nbsp; por su quivalente en html
 					data.data.forEach((receta) => {
@@ -103,6 +103,8 @@ export default Vue.extend({
 					this.colores.push(...data.colores); // agregar el color promedio de cada receta al final de la lista
 					this.totalRecetas = data.total;
 					this.ultimaPagina = data.last_page;
+
+					this.initMagicGrid();
 				})
 				.catch((error) => {
 					console.log(error);
@@ -115,7 +117,7 @@ export default Vue.extend({
 		initMagicGrid() {
 			this.myMagicGrid = new MagicGrid({
 				container: ".recetas-scroll-infinito__contenido",
-				items: 1,
+				items: this.recetas.length === 0 ? 1 : this.recetas.length,
 				gutter: 20,
 				maxWidth: "100%",
 				animate: true,
@@ -139,7 +141,7 @@ export default Vue.extend({
 	},
 	mounted() {
 		// console.log("mounted");
-		this.initMagicGrid();
+
 		this.obtenerRecetas();
 
 		// disparar un evento por cada imagen cargada para que magic grid sepa que hay que hacer

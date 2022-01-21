@@ -5666,8 +5666,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         var _this$recetas, _this$colores;
 
         var data = _ref.data;
-        console.log(data); // mostrar la preparacion de la receta como cadena y traducir codigos por ej. &nbsp; por su quivalente en html
-
+        // console.log(data);
+        // mostrar la preparacion de la receta como cadena y traducir codigos por ej. &nbsp; por su quivalente en html
         data.data.forEach(function (receta) {
           receta.preparacion = receta.preparacion.replace(/&nbsp;/g, " ") // &nbsp; -> " "
           .replace(/&amp;/g, "&") // &amp; -> "&"
@@ -5684,6 +5684,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
         _this.totalRecetas = data.total;
         _this.ultimaPagina = data.last_page;
+
+        _this.initMagicGrid();
       })["catch"](function (error) {
         console.log(error);
       })["finally"](function () {
@@ -5694,7 +5696,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     initMagicGrid: function initMagicGrid() {
       this.myMagicGrid = new (magic_grid__WEBPACK_IMPORTED_MODULE_1___default())({
         container: ".recetas-scroll-infinito__contenido",
-        items: 1,
+        items: this.recetas.length === 0 ? 1 : this.recetas.length,
         gutter: 20,
         maxWidth: "100%",
         animate: true,
@@ -5720,7 +5722,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     var _this3 = this;
 
     // console.log("mounted");
-    this.initMagicGrid();
     this.obtenerRecetas(); // disparar un evento por cada imagen cargada para que magic grid sepa que hay que hacer
 
     document.addEventListener("lazyloaded", function (e) {

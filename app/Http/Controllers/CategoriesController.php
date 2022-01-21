@@ -22,7 +22,7 @@ class CategoriesController extends Controller
             ->withCount( 'likes' )
             ->whereCategoria_id( $categoria->id )
             ->latest()
-            ->paginate( 6, ['*'], 'pagina' );
+            ->paginate( 6, ['*'], 'pagina' ); // se cambia el nombre de la variable de paginacion a pagina (default es page)
         // dd( $recetas->toArray() );
 
         // modificamos y agregamos datos necesarios a cada receta

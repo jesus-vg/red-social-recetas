@@ -40,8 +40,7 @@
 			</ul>
 		</div>
 		<div class="splide__progress">
-			<div class="splide__progress__bar">
-			</div>
+			<div class="splide__progress__bar"></div>
 		</div>
 	</div>
 </template>
@@ -79,7 +78,7 @@ export default Vue.extend({
 			type: "loop",
 			drag: "free",
 			focus: "center",
-			arrows: 'slider',
+			arrows: "slider",
 			gap: "1rem",
 			perPage: 1,
 			rewind: true,

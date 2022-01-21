@@ -5069,7 +5069,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (vue__WEBPACK_IMPORTED_MODULE_1__["default"].extend({
@@ -5098,7 +5097,7 @@ __webpack_require__.r(__webpack_exports__);
       type: "loop",
       drag: "free",
       focus: "center",
-      arrows: 'slider',
+      arrows: "slider",
       gap: "1rem",
       perPage: 1,
       rewind: true,

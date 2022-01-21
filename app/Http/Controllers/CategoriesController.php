@@ -13,6 +13,7 @@ class CategoriesController extends Controller
     //
     /**
      * @param CategoryRecipe $categoria
+     * @link paginate https://laravel.com/docs/8.x/pagination
      */
     public function show( CategoryRecipe $categoria )
     {

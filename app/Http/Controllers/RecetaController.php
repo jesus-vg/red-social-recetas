@@ -8,303 +8,335 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+
 require 'ImagenUtilidades.php';
 
 class RecetaController extends Controller
 {
-	public function __construct()
-	{
-		$this->middleware('auth', ['except' => ['show', 'paginacionRecetas']]); // only authenticated users can access this controller
-		// https://www.udemy.com/course/curso-laravel-crea-aplicaciones-y-sitios-web-con-php-y-mvc/learn/lecture/20324719
-	}
+    public function __construct()
+    {
+        // only authenticated users can access this controller
+        $this->middleware( 'auth', ['except' => ['show', 'paginacionRecetas', 'search']] );
+        // https://www.udemy.com/course/curso-laravel-crea-aplicaciones-y-sitios-web-con-php-y-mvc/learn/lecture/20324719
+    }
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return View
-	 */
-	public function index(): View
-	{
-		/**
-		 * doc to see how to use the return view() method in a controller
-		 * https://laravel.com/docs/8.x/routing#view-routes
-		 * https://laravel.com/docs/8.x/views#introduction
-		 */
-		// $recipes = Auth::user()->recipes;
-		// dd($recipes);
+    /**
+     * Display a listing of the resource.
+     *
+     * @return View
+     */
+    public function index(): View
+    {
+        /**
+         * doc to see how to use the return view() method in a controller
+         * https://laravel.com/docs/8.x/routing#view-routes
+         * https://laravel.com/docs/8.x/views#introduction
+         */
+        // $recipes = Auth::user()->recipes;
+        // dd($recipes);
 
-		// mostrar las recetas del usuario logueado con paginacion de 5 en 5
-		$recipes = Auth::user()->recipes()->paginate(5);
+        // mostrar las recetas del usuario logueado con paginacion de 5 en 5
+        $recipes = Auth::user()->recipes()->paginate( 5 );
 
-		// obtener las recetas que les ha dado like con paginacion de 10 en 10
-		$recipesLikes = Auth::user()->likes()->paginate(10, ['*'], 'likes');
-		// dd($recipesLikes);
+        // obtener las recetas que les ha dado like con paginacion de 10 en 10
+        $recipesLikes = Auth::user()->likes()->paginate( 10, ['*'], 'likes' );
+        // dd($recipesLikes);
 
-		return view('recetas.index', ['recetas' => $recipes, 'recetasLikes' => $recipesLikes]);
-	}
+        return view( 'recetas.index', ['recetas' => $recipes, 'recetasLikes' => $recipesLikes] );
+    }
 
+    // crear metodo para mostrar recetas de un usuario paginadas de 5 en 5
+    public function paginacionRecetas( Request $request ): array
+    {
+        // dd($request->idUsuario);
 
-	// crear metodo para mostrar recetas de un usuario paginadas de 5 en 5
-	public function paginacionRecetas(Request $request): array
-	{
-		// dd($request->idUsuario);
+        // obtener las recetas del usuario logueado
+        $recetas = Receta::where( 'user_id', $request->idUsuario )->paginate( 10, ['*'], 'pagina' );
 
-		// obtener las recetas del usuario logueado
-		$recetas = Receta::where('user_id', $request->idUsuario)->paginate(10, ['*'], 'pagina');
+        // obtenemos el color promedio de cada imagen de la receta
+        $array_colores = array();
 
-		// obtenemos el color promedio de cada imagen de la receta
-		$array_colores = array();
+        foreach ( $recetas->items() as $receta ) {
+            // echo $receta->imagen;
+            $image = $receta->imagen;
+            // dd($image);
 
-		foreach ($recetas->items() as $receta) {
-			// echo $receta->imagen;
-			$image = $receta->imagen;
-			// dd($image);
+            if ( $image ) {
+                // obtenemos el color promedio de la imagen
+                $color = getAverageColor( 'storage/' . $image );
+                // dd($color);
 
-			if ($image) {
-				// obtenemos el color promedio de la imagen
-				$color = getAverageColor('storage/' . $image);
-				// dd($color);
+                // guardamos el color promedio en el array
+                array_push( $array_colores, $color );
 
-				// guardamos el color promedio en el array
-				array_push($array_colores, $color);
+                // convertir a una cadena de texto la preparacion de la receta y mostrar solo 20 palabras
+                // $preparacion = Str::words(strip_tags($receta->preparacion), 20);
+                // $receta->preparacion = filter_var($preparacion, FILTER_SANITIZE_STRING);
+                $receta->preparacion = Str::words( strip_tags( $receta->preparacion ), 20 );
+            }
+        }
+        // dd($array_colores);
 
-				// convertir a una cadena de texto la preparacion de la receta y mostrar solo 20 palabras
-				// $preparacion = Str::words(strip_tags($receta->preparacion), 20);
-				// $receta->preparacion = filter_var($preparacion, FILTER_SANITIZE_STRING);
-				$receta->preparacion = Str::words(strip_tags($receta->preparacion), 20);
-			}
-		}
-		// dd($array_colores);
+        // retornamos la paginacion y los colores promedio de las imagenes en un array (array_merge)
 
-		// retornamos la paginacion y los colores promedio de las imagenes en un array (array_merge)
-		return array_merge($recetas->toArray(), ['colores' => $array_colores]);
-	}
+        return array_merge( $recetas->toArray(), ['colores' => $array_colores] );
+    }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return View
-	 */
-	public function create(): View
-	{
-		// DB::table('categorias_receta')->get()->pluck('nombre', 'id')->dd();
-		// $categorias = DB::table('categorias_receta')->get()->pluck('nombre', 'id');
-		$categorias = CategoryRecipe::all([
-			'id',
-			'nombre',
-		]);
-		return view('recetas.create', ['categorias' => $categorias]);
-	}
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return View
+     */
+    public function create(): View
+    {
+        // DB::table('categorias_receta')->get()->pluck('nombre', 'id')->dd();
+        // $categorias = DB::table('categorias_receta')->get()->pluck('nombre', 'id');
+        $categorias = CategoryRecipe::all( [
+            'id',
+            'nombre',
+        ] );
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * doc to see how to use the validate() method in a controller
-	 * https://laravel.com/docs/8.x/validation#available-validation-rules
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function store(Request $request)
-	{
+        return view( 'recetas.create', ['categorias' => $categorias] );
+    }
 
-		// there we validate the request data
-		$data = request()->validate([
-			'titulo' => 'required|min:6',
-			'ingredientes' => 'required|min:10',
-			'preparacion' => 'required|min:10',
-			'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-			'categoria' => 'required|numeric',
-		]);
+    /**
+     * Store a newly created resource in storage.
+     *
+     * doc to see how to use the validate() method in a controller
+     * https://laravel.com/docs/8.x/validation#available-validation-rules
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store( Request $request )
+    {
 
-		// store() method returns the path of the file
-		$route_image = $data['imagen']->store('uploads-recetas', 'public');
-		// for amazon s3
-		// $image = $data['imagen']->store('uploads-recetas', 's3');
-		// the files are stored in the public folder of the project (storage/app/public)
+        // there we validate the request data
+        $data = request()->validate( [
+            'titulo'       => 'required|min:6',
+            'ingredientes' => 'required|min:10',
+            'preparacion'  => 'required|min:10',
+            'imagen'       => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'categoria'    => 'required|numeric',
+        ] );
 
-		// To can view the image in the browser, important, we need to add the public path to the image
-		// We may need to add the image to the database and create a symbolic link to the public folder:
-		// use the following command to create the link:
-		// php artisan storage:link
+        // store() method returns the path of the file
+        $route_image = $data['imagen']->store( 'uploads-recetas', 'public' );
+        // for amazon s3
+        // $image = $data['imagen']->store('uploads-recetas', 's3');
+        // the files are stored in the public folder of the project (storage/app/public)
 
-		// To can use the image in the view we need to use the asset() method
-		// https://laravel.com/docs/8.x/views#asset-helper
-		// https://laravel.com/docs/8.x/filesystem#resizing-images
+        // To can view the image in the browser, important, we need to add the public path to the image
+        // We may need to add the image to the database and create a symbolic link to the public folder:
+        // use the following command to create the link:
+        // php artisan storage:link
 
-		// resizing the image with intervention image, we use the fit() method
-		// doc http://image.intervention.io/api/fit
-		$image_resize = Image::make(public_path('storage/' . $route_image))->fit(1000, 600);
-		// saving the image
-		$image_resize->save();
+        // To can use the image in the view we need to use the asset() method
+        // https://laravel.com/docs/8.x/views#asset-helper
+        // https://laravel.com/docs/8.x/filesystem#resizing-images
 
-		// save the user to db (with model)
-		auth()->user()->recipes()->create([
-			'titulo' => $data['titulo'],
-			'ingredientes' => $data['ingredientes'],
-			'preparacion' => $data['preparacion'],
-			'imagen' => $route_image, // the path of the image
-			'categoria_id' => $data['categoria'],
-		]);
+        // resizing the image with intervention image, we use the fit() method
+        // doc http://image.intervention.io/api/fit
+        $image_resize = Image::make( public_path( 'storage/' . $route_image ) )->fit( 1000, 600 );
+        // saving the image
+        $image_resize->save();
 
-		/*DB::table('recetas')->insert([
-			'titulo' => $data['titulo'],
-			'ingredientes' => $data['ingredientes'],
-			'preparacion' => $data['preparacion'],
-			'imagen' => $route_image, // the path of the image
-			'categoria_id' => $data['categoria'],
-			'user_id' => auth()->user()->id,
-			'created_at' => now(),
-			'updated_at' => now(),
-		]);*/
-		// dd($request->all()); // show all the request data
+        // save the user to db (with model)
+        auth()->user()->recipes()->create( [
+            'titulo'       => $data['titulo'],
+            'ingredientes' => $data['ingredientes'],
+            'preparacion'  => $data['preparacion'],
+            'imagen'       => $route_image, // the path of the image
+            'categoria_id' => $data['categoria'],
+        ] );
 
-		return redirect()->route('recetas.index');
-		//
-	}
+        /*DB::table('recetas')->insert([
+        'titulo' => $data['titulo'],
+        'ingredientes' => $data['ingredientes'],
+        'preparacion' => $data['preparacion'],
+        'imagen' => $route_image, // the path of the image
+        'categoria_id' => $data['categoria'],
+        'user_id' => auth()->user()->id,
+        'created_at' => now(),
+        'updated_at' => now(),
+        ]);*/
+        // dd($request->all()); // show all the request data
 
-	/**
-	 * Display the specified resource.
-	 * doc to see how to use show() method in a controller
-	 * https://laravel.com/docs/8.x/routing#show-routes
-	 *
-	 * @param  \App\Models\Receta  $receta
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show(Receta $receta)
-	{
-		// dd($receta);
-		// return $receta;
-		//
+        return redirect()->route( 'recetas.index' );
+        //
+    }
 
-		// array para datos de los likes
-		$likes = array(
-			'total_likes' => $receta->likes->count(), // total likes
-			'liked' => false,
-		);
+    /**
+     * Display the specified resource.
+     * doc to see how to use show() method in a controller
+     * https://laravel.com/docs/8.x/routing#show-routes
+     *
+     * @param  \App\Models\Receta  $receta
+     * @return \Illuminate\Http\Response
+     */
+    public function show( Receta $receta )
+    {
+        // dd($receta);
+        // return $receta;
+        //
 
-		// preguntamos si el usuario esta autenticado para modificar el array $likes y actualizar el valor de liked
-		if (auth()->check()) {
-			// obtenemos el id del usuario autenticado
-			$user_id = auth()->user()->id;
+        // array para datos de los likes
+        $likes = array(
+            'total_likes' => $receta->likes->count(), // total likes
+            'liked' => false,
+        );
 
-			// consultamos si el usuario actual le dio like a la receta, true or false
-			$liked = $receta->likes()->where('user_id', $user_id)->exists();
+        // preguntamos si el usuario esta autenticado para modificar el array $likes y actualizar el valor de liked
+        if ( auth()->check() ) {
+            // obtenemos el id del usuario autenticado
+            $user_id = auth()->user()->id;
 
-			// actualizamos el array $likes con el valor de liked
-			$likes['liked'] = $liked;
-		}
+            // consultamos si el usuario actual le dio like a la receta, true or false
+            $liked = $receta->likes()->where( 'user_id', $user_id )->exists();
 
-		// convertimos el array de likes a un objeto de clase POO
-		$likes = (object) $likes;
-		// dd($likes);
+            // actualizamos el array $likes con el valor de liked
+            $likes['liked'] = $liked;
+        }
 
-		return view('recetas.show', ['receta' => $receta, 'likes' => $likes]);
-	}
+        // convertimos el array de likes a un objeto de clase POO
+        $likes = (object) $likes;
+        // dd($likes);
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  \App\Models\Receta  $receta
-	 * @return \Illuminate\Http\Response
-	 */
-	public function edit(Receta $receta)
-	{
-		// usamos un policy para ver si el usuario puede editar la receta
-		$this->authorize('view', $receta);
+        return view( 'recetas.show', ['receta' => $receta, 'likes' => $likes] );
+    }
 
-		$categorias = CategoryRecipe::all(['id', 'nombre',]);
-		return view('recetas.edit', ['receta' => $receta, 'categorias' => $categorias]);
-	}
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Receta  $receta
+     * @return \Illuminate\Http\Response
+     */
+    public function edit( Receta $receta )
+    {
+        // usamos un policy para ver si el usuario puede editar la receta
+        $this->authorize( 'view', $receta );
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \App\Models\Receta  $receta
-	 * @return \Illuminate\Http\Response
-	 */
-	public function update(Request $request, Receta $receta)
-	{
-		// we authorize the user to edit the recipe
-		$this->authorize('update', $receta);
+        $categorias = CategoryRecipe::all( ['id', 'nombre'] );
 
-		// First we have to validate the request data
-		$request = request()->validate([
-			'titulo' => 'required|min:6',
-			'ingredientes' => 'required|min:10',
-			'preparacion' => 'required|min:10',
-			'imagen' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-			'categoria' => 'required|numeric',
-		]);
+        return view( 'recetas.edit', ['receta' => $receta, 'categorias' => $categorias] );
+    }
 
-		// if the user has uploaded a new image
-		if (request()->hasFile('imagen')) {
-			// doc to see how to use the delete() method in a controller
-			// https://laravel.com/docs/8.x/filesystem#deleting-files
-			// delete the old image
-			Storage::disk('public')->delete($receta->imagen);
-			// store the new image
-			// store() method returns the path of the file
-			$route_image = $request['imagen']->store('uploads-recetas', 'public');
-			// for amazon s3
-			// $image = $request['imagen']->store('uploads-recetas', 's3');
-			// the files are stored in the public folder of the project (storage/app/public)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Receta  $receta
+     * @return \Illuminate\Http\Response
+     */
+    public function update(
+        Request $request,
+        Receta $receta
+    ) {
+        // we authorize the user to edit the recipe
+        $this->authorize( 'update', $receta );
 
-			// To can view the image in the browser, important, we need to add the public path to the image
-			// We may need to add the image to the database and create a symbolic link to the public folder:
-			// use the following command to create the link:
-			// php artisan storage:link
+        // First we have to validate the request data
+        $request = request()->validate( [
+            'titulo'       => 'required|min:6',
+            'ingredientes' => 'required|min:10',
+            'preparacion'  => 'required|min:10',
+            'imagen'       => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'categoria'    => 'required|numeric',
+        ] );
 
-			// To can use the image in the view we need to use the asset() method
-			// https://laravel.com/docs/8.x/views#asset-helper
-			// https://laravel.com/docs/8.x/filesystem#resizing-images
+        // if the user has uploaded a new image
+        if ( request()->hasFile( 'imagen' ) ) {
+            // doc to see how to use the delete() method in a controller
+            // https://laravel.com/docs/8.x/filesystem#deleting-files
+            // delete the old image
+            Storage::disk( 'public' )->delete( $receta->imagen );
+            // store the new image
+            // store() method returns the path of the file
+            $route_image = $request['imagen']->store( 'uploads-recetas', 'public' );
+            // for amazon s3
+            // $image = $request['imagen']->store('uploads-recetas', 's3');
+            // the files are stored in the public folder of the project (storage/app/public)
 
-			// resizing the image with intervention image, we use the fit() method
-			// doc http://image.intervention.io/api/fit
-			$image_resize = Image::make(public_path('storage/' . $route_image))->fit(1000, 600);
-			// saving the image
-			$image_resize->save();
-		} else {
-			// if the user has not uploaded a new image, we keep the old one
-			$route_image = $receta->imagen;
-		}
+            // To can view the image in the browser, important, we need to add the public path to the image
+            // We may need to add the image to the database and create a symbolic link to the public folder:
+            // use the following command to create the link:
+            // php artisan storage:link
 
-		// doc to see how to use update() method in a controller
-		// https://laravel.com/docs/8.x/eloquent#updating-records
-		// update the record in the database
-		$receta->update([
-			'titulo' => $request['titulo'],
-			'ingredientes' => $request['ingredientes'],
-			'preparacion' => $request['preparacion'],
-			'imagen' => $route_image, // the path of the image
-			'categoria_id' => $request['categoria'],
-		]);
+            // To can use the image in the view we need to use the asset() method
+            // https://laravel.com/docs/8.x/views#asset-helper
+            // https://laravel.com/docs/8.x/filesystem#resizing-images
 
-		return redirect()->route('recetas.index');
-	}
+            // resizing the image with intervention image, we use the fit() method
+            // doc http://image.intervention.io/api/fit
+            $image_resize = Image::make( public_path( 'storage/' . $route_image ) )->fit( 1000, 600 );
+            // saving the image
+            $image_resize->save();
+        } else {
+            // if the user has not uploaded a new image, we keep the old one
+            $route_image = $receta->imagen;
+        }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  \App\Models\Receta  $receta
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy(Receta $receta)
-	{
-		// autoryze the user to delete the recipe
-		$this->authorize('delete', $receta);
+        // doc to see how to use update() method in a controller
+        // https://laravel.com/docs/8.x/eloquent#updating-records
+        // update the record in the database
+        $receta->update( [
+            'titulo'       => $request['titulo'],
+            'ingredientes' => $request['ingredientes'],
+            'preparacion'  => $request['preparacion'],
+            'imagen'       => $route_image, // the path of the image
+            'categoria_id' => $request['categoria'],
+        ] );
 
-		// then we delete the record from the database
-		$receta->delete();
+        return redirect()->route( 'recetas.index' );
+    }
 
-		// we delete the image from the storage
-		if ($receta->imagen && Storage::disk('public')->exists($receta->imagen)) {
-			Storage::disk('public')->delete($receta->imagen);
-		}
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Receta  $receta
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy( Receta $receta )
+    {
+        // autoryze the user to delete the recipe
+        $this->authorize( 'delete', $receta );
 
-		return redirect()->route('recetas.index');
-	}
+        // then we delete the record from the database
+        $receta->delete();
+
+        // we delete the image from the storage
+        if ( $receta->imagen && Storage::disk( 'public' )->exists( $receta->imagen ) ) {
+            Storage::disk( 'public' )->delete( $receta->imagen );
+        }
+
+        return redirect()->route( 'recetas.index' );
+    }
+
+    /**
+     * Buscar recetas.
+     * @param  \Illuminate\Http\Request  $request
+     */
+    public function search( Request $request )
+    {
+        // we get the search term from the request
+        $search = $request->input( 'buscar' );
+
+        // we get the recipes that match the search term
+        // $recetas = Receta::where( 'titulo', 'LIKE', '%' . $search . '%' )->paginate( 10 );
+        $recetas = Receta::select( ['id', 'titulo', 'preparacion', 'imagen', 'created_at'] )
+            ->where( 'titulo', 'LIKE', '%' . $search . '%' )
+            ->withCount( 'likes' )
+            ->latest()
+            ->paginate( 10, ['*'], 'pagina' );
+
+        // we add the search term to the url so we can use it in the pagination links, for example: /recetas/buscar/term
+        $recetas->appends( ['buscar' => $search] );
+        // dd( $recetas->toArray() );
+
+        // we return the view with the recipes and the search term
+
+        return view( 'busquedas.show', ['recetas' => $recetas, 'busqueda' => $search] );
+    }
 }

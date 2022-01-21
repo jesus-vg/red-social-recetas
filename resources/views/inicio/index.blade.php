@@ -7,7 +7,33 @@
 	>
 @endsection
 
+@section('hero')
+	<div class="hero-search">
+		<form
+			class="container h-100"
+			action="{{ route('recetas.search') }}"
+			method="GET"
+		>
+			<div class="row h-100 align-items-center">
+				<div class="col-md-4 hero-search__search">
+					<p class="display-4">Encuentra una receta para tu proxima comida</p>
+
+					<input
+						type="search"
+						class="form-control"
+						name="buscar"
+						aria-describedby="Buscar recetas"
+						placeholder="Buscar..."
+					>
+
+				</div>
+			</div>
+		</form>
+	</div>
+@endsection
+
 @section('content')
+
 	<h1 class="h1 mb-3">
 		Últimas recetas
 	</h1>

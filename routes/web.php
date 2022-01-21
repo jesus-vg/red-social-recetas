@@ -38,6 +38,9 @@ Route::get( '/', [InicioController::class, 'index'] )->name( 'inicio.index' );
 // ruta para mostrar la categoria
 Route::get( '/categoria/{categoria}', [CategoriesController::class, 'show'] )->name( 'categorias.show' );
 
+// ruta para el buscador de recetas
+Route::get( '/buscar', [RecetaController::class, 'search'] )->name( 'recetas.search' );
+
 Route::get( '/recetas', [RecetaController::class, 'index'] )->name( 'recetas.index' );
 
 Route::get( '/recetas/create', [RecetaController::class, 'create'] )->name( 'recetas.create' );

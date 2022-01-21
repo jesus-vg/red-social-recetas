@@ -10583,6 +10583,19 @@ body {
   padding-right: 2rem;
 }
 
+.hero-search {
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/images/hero-search.jpg");
+  background-size: cover;
+  background-position: top center;
+  height: 30rem;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+.hero-search__search p {
+  font-size: 1.4rem;
+  color: aliceblue;
+}
+
 .blur-up {
   transition: filter 1s;
 }

@@ -20,26 +20,42 @@
 @import "inicio";
 
 body {
-  min-width: 320px;
+	min-width: 320px;
 }
 
 .title {
-  border-bottom: 3px solid $blue;
-  display: inline-block;
-  padding-bottom: .5rem;
-  padding-right: 2rem;
+	border-bottom: 3px solid $blue;
+	display: inline-block;
+	padding-bottom: 0.5rem;
+	padding-right: 2rem;
 }
-
+.hero-search {
+	background-image: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 0.5),
+			rgba(0, 0, 0, 0.5)
+		),
+		url("/images/hero-search.jpg");
+	background-size: cover;
+	background-position: top center;
+	height: 30rem;
+	border-radius: $border-radius-base;
+	overflow: hidden;
+	&__search p {
+		font-size: 1.4rem;
+		color: aliceblue;
+	}
+}
 // lazy load styles
 .blur-up {
-  transition: filter 1s, -webkit-filter 1s;
+	transition: filter 1s, -webkit-filter 1s;
 }
 
 .blur-up.lazyloading {
-  -webkit-filter: blur(7px);
-  filter: blur(7px);
+	-webkit-filter: blur(7px);
+	filter: blur(7px);
 }
 
 .blur-up.lazyloaded {
-  filter: blur(0);
+	filter: blur(0);
 }

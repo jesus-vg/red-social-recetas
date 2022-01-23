@@ -320,6 +320,10 @@ class RecetaController extends Controller
      */
     public function search( Request $request )
     {
+        // creamos una validacion para el parametro search
+        $request->validate( [
+            'buscar' => 'required|min:3|string',
+        ] );
         // we get the search term from the request
         $search = $request->input( 'buscar' );
 

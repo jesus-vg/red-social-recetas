@@ -24,7 +24,14 @@
 						name="buscar"
 						aria-describedby="Buscar recetas"
 						placeholder="Buscar..."
+						value="{{ old('buscar', '') }}"
 					>
+
+					@error('buscar')
+						<small class="text-danger bg-white py-2 d-block">
+							{{ $message }}
+						</small>
+					@enderror
 
 				</div>
 			</div>

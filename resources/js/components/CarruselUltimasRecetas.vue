@@ -13,7 +13,7 @@
 							:style="{ backgroundColor: `rgb(${receta.color})` }"
 						>
 							<img
-								:data-src="'/storage/' + receta.imagen"
+								:data-src="'./storage/' + receta.imagen"
 								class="img-fluid lazyload blur-up"
 								:alt="receta.titulo"
 							/>
@@ -92,8 +92,5 @@ export default Vue.extend({
 
 		splide.mount();
 	},
-	methods: {},
 });
 </script>
-
-<style></style>

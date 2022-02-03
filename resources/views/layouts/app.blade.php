@@ -16,6 +16,7 @@
 
 	<title>{{ config('app.name', 'Laravel') }}</title>
 
+	{{-- <base href="http://curso.test/red-social-recetas/public/index.php"> --}}
 	<!-- Scripts -->
 	<script
 	 src="{{ asset('js/app.js') }}"

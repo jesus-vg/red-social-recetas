@@ -6,7 +6,7 @@
 		<h1 class="h1 text-center">{{ $receta->titulo }}</h1>
 		<div class="banner my-4">
 			<img
-				src="/storage/{{ $receta->imagen }}"
+				src="{{ asset('storage/' . $receta->imagen) }}"
 				class="rounded"
 				alt="{{ $receta->titulo }}"
 			>
